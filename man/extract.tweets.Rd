@@ -1,0 +1,118 @@
+\name{extract.tweets}
+\alias{extract.tweets}
+\title{Connect to Mongo database and extract tweets that match
+conditions specified in the arguments.}
+\usage{
+  extract.tweets(set, string = NULL, size = 0,
+    fields = c("created_at", "user.screen_name", "text"),
+    retweets = NULL, hashtags = NULL, from = NULL,
+    to = NULL, verbose = TRUE)
+}
+\arguments{
+  \item{set}{string, name of the collection of tweets in
+  the Mongo database to query.}
+
+  \item{string}{string or vector of strings, set to NULL by
+  default (will return all tweets). If it is a string, it
+  will return tweets that contain that string. If it is a
+  vector of string, it will return all tweets that contain
+  at least one of them.}
+
+  \item{size}{numeric, set to 0 by default (will return all
+  tweets that match other conditions). If it between 0 and
+  1 (not included), it will return that proportion of
+  tweets in the database (e.g. 0.5 implies 50\% of all
+  tweets that match other conditions will be returned). If
+  it is 1 or greater, it will return a random sample of
+  that size with tweets that match the specified
+  conditions.}
+
+  \item{fields}{vector of strings, indicates fields from
+  tweets that will be returned. Default is the date and
+  time of the tweet, its text, and the screen name of the
+  user that published it. See details for full list of
+  possible fields.}
+
+  \item{retweets}{logical, set to NULL by default (will
+  return all tweets). If \code{TRUE}, will return only
+  tweets that are retweets (i.e. contain an embededed
+  retweeted status - manual retweets are not included). If
+  \code{FALSE}, will return only tweets that are not
+  retweets (manual retweets are now included).}
+
+  \item{hashtags}{logical, set to NULL by default (will
+  return all tweets). If \code{TRUE}, will return only
+  tweets that use a hashtag. If \code{FALSE}, will return
+  only tweets that do not contain a hashtag.}
+
+  \item{from}{date, in string format. If different from
+  \code{NULL}, will consider only tweets after that date.
+  Note that using this field requires that the tweets have
+  a field in ISODate format called \code{datetime}}
+
+  \item{to}{date, in string format. If different from
+  \code{NULL}, will consider only tweets after that date.
+  Note that using this field requires that the tweets have
+  a field in ISODate format called \code{datetime}}
+
+  \item{verbose}{logical, default is \code{TRUE}, which
+  generates some output to the R console with information
+  about the count of tweets.}
+}
+\description{
+  \code{extract.tweets} opens a connection to the Mongo
+  database in the lab computer and will return tweets that
+  match a series of conditions: whether it contains a
+  certain keyword, whether it is or not a retweet, or
+  whether or not it contains a hashtag. It allows to
+  specify the fields of the tweet to be extracted. If
+  desired, it can also return a fixed number of tweets that
+  will represent a random sample of all tweets in the
+  database.
+}
+\details{
+  The following is a non-exhaustive of relevant fields that
+  can be specified on the \code{fields} argument (for a
+  complete list, check the documentation at:
+  \url{https://dev.twitter.com/docs/platform-objects}
+  Tweet: text, created_at, id_str, favorite_count, source,
+  retweeted, r retweet_count, lang, in_reply_to_status_id,
+  in_reply_to_screen_name Entities: entities.hashtags,
+  entities.user_mentions, entities.hashtags, entities.urls
+  Retweeted_status: retweeted_status.text,
+  retweeted_status.created_at... (and all other tweet,
+  user, and entities fields) User: user.screen_name,
+  user.id_str, user.geo_enabled, user.location,
+  user.followers_count, user.statuses_count,
+  user.friends_count, user.description, user.lang,
+  user.name, user.url, user.created_at, user.time_zone Geo:
+  geo.coordinates
+}
+\examples{
+\dontrun{
+## connect to the Mongo database
+ mongo <- mongo.create("SMAPP_HOST:PORT", db="DATABASE")
+ mongo.authenticate(mongo, username="USERNAME", password="PASSWORD", db="DATABASE")
+ set <- "DATABASE.COLLECTION"
+
+## extract text from all tweets in the database
+ tweets <- extract.tweets(set, fields="text")
+
+## extract random sample of 10\% of tweets, with text and screen name
+ tweets <- extract.tweets(set, fields=c("user.screen_name", "text"), size=0.10)
+
+## extract random sample of 100 tweets that are not retweets
+ tweets <- extract.tweets(set, size=100, retweets=FALSE)
+
+## extract all tweets that mention turkey
+ tweets <- extract.tweets(set, string="turkey")
+
+## extract all tweets that mention 'occupygezi' and do a quick plot
+ tweets <- extract.tweets(set, string="occupygezi", fields="created_at")
+ plot(tweets)
+}
+}
+\author{
+  Pablo Barbera \email{pablo.barbera@nyu.edu}
+}
+

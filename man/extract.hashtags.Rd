@@ -1,0 +1,64 @@
+\name{extract.hashtags}
+\alias{extract.hashtags}
+\title{Connect to Mongo database and extract hashtags from each tweet.}
+\usage{
+  extract.hashtags(set, string = NULL, from = NULL,
+    to = NULL, verbose = TRUE)
+}
+\arguments{
+  \item{set}{string, name of the collection of tweets in
+  the Mongo database to query.}
+
+  \item{string}{string or vector of strings, set to NULL by
+  default (will return hashtags for all tweets). If it is a
+  string, it will return all hashtags that were used in
+  tweets containing that string. If it is a vector of
+  strings, it will return all hashtags that were used in
+  tweets containing at least one of the strings.}
+
+  \item{from}{date, in string format. If different from
+  \code{NULL}, will consider only tweets after that date.
+  Note that using this field requires that the tweets have
+  a field in ISODate format called \code{datetime}}
+
+  \item{to}{date, in string format. If different from
+  \code{NULL}, will consider only tweets after that date.
+  Note that using this field requires that the tweets have
+  a field in ISODate format called \code{datetime}}
+
+  \item{verbose}{logical, default is \code{TRUE}, which
+  generates some output to the R console with information
+  about the count of tweets.}
+}
+\description{
+  \code{extract.hashtags} opens a connection to the Mongo
+  database in the lab computer and returns a list of
+  hashtags used in all tweets, or in tweets that contain a
+  given keyword. In combination with
+  \code{summary.retweets}, this is a quick way to display
+  the top hashtags used in a collection of tweets.
+}
+\examples{
+\dontrun{
+## connect to the Mongo database
+ mongo <- mongo.create("SMAPP_HOST:PORT", db="DATABASE")
+ mongo.authenticate(mongo, username="USERNAME", password="PASSWORD", db="DATABASE")
+ set <- "DATABASE.COLLECTION"
+
+## extract all hashtags in a collection of tweets
+ ht <- extract.hashtags(set)
+
+## show top 10 hashtags
+summary(ht, n=10)
+
+## extract all hashtags that are used in tweets that mention "occupygezi"
+ ht <- extract.hashtags(set, string="occupygezi")
+
+## show top 10 hashtags in tweets mentioning "occupygezi"
+ summary(ht, n=10)
+}
+}
+\author{
+  Pablo Barbera \email{pablo.barbera@nyu.edu}
+}
+

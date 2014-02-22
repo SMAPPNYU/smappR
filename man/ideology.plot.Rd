@@ -1,0 +1,30 @@
+\name{ideology.plot}
+\alias{ideology.plot}
+\title{Displays estimated ideology with other reference ideal points}
+\usage{
+  ideology.plot(results)
+}
+\arguments{
+  \item{results}{ideology estimation object from
+  \code{estimate.ideology} function}
+}
+\description{
+  Displays estimated ideology with other reference ideal
+  points
+}
+\examples{
+\dontrun{
+## download list of friends for a given user
+ friends <- getFriends(screen_name = "p_barbera", oauth_folder="oauth")
+## estimating ideology
+ results <- estimate.ideology(friends)
+## trace plot
+ traceplot.ideology(results, "theta")
+## ideology plot
+ ideology.plot(results)
+}
+}
+\author{
+  Pablo Barbera \email{pablo.barbera@nyu.edu}
+}
+

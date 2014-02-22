@@ -1,0 +1,91 @@
+\name{extract.recent.tweets}
+\alias{extract.recent.tweets}
+\title{Connect to Mongo database and extract most recent tweets for a given
+collection}
+\usage{
+  extract.recent.tweets(set, limit = 100,
+    fields = c("created_at", "user.screen_name", "text"),
+    string = NULL, retweets = NULL, hashtags = NULL,
+    verbose = TRUE)
+}
+\arguments{
+  \item{set}{string, name of the collection of tweets in
+  the Mongo database to query.}
+
+  \item{fields}{vector of strings, indicates fields from
+  tweets that will be returned. Default is the date and
+  time of the tweet, its text, and the screen name of the
+  user that published it. See details for full list of
+  possible fields.}
+
+  \item{limit}{number of tweets to be returned. Default is
+  100, which will return 100 most recent tweets.}
+
+  \item{verbose}{logical, default is \code{TRUE}, which
+  generates some output to the R console with information
+  about the count of tweets.}
+
+  \item{string}{string or vector of strings, set to NULL by
+  default (will return all recent tweets). If it is a
+  string, it will return the number of tweets that contain
+  that string. If it is a vector of string, it will return
+  all tweets that contain at least one of them.}
+
+  \item{retweets}{logical, set to NULL by default (will
+  return all tweets). If \code{TRUE}, will return only
+  tweets that are retweets (i.e. contain an embededed
+  retweeted status - manual retweets are not included). If
+  \code{FALSE}, will return only tweets that are not
+  retweets (manual retweets are now included).}
+
+  \item{hashtags}{logical, set to NULL by default (will
+  return all tweets). If \code{TRUE}, will return only
+  tweets that use a hashtag. If \code{FALSE}, will return
+  only tweets that do not contain a hashtag.}
+
+  \item{string}{string, set to NULL by default (will return
+  all tweets). If it is a string, it will return all tweets
+  that contain that string.}
+}
+\description{
+  \code{extract.recent.tweets} opens a connection to the
+  Mongo database in the lab computer and will most recent
+  tweets.
+}
+\details{
+  The following is a non-exhaustive of relevant fields that
+  can be specified on the \code{fields} argument (for a
+  complete list, check the documentation at:
+  \url{https://dev.twitter.com/docs/platform-objects}
+  Tweet: text, created_at, id_str, favorite_count, source,
+  retweeted, r retweet_count, lang, in_reply_to_status_id,
+  in_reply_to_screen_name Entities: entities.hashtags,
+  entities.user_mentions, entities.hashtags, entities.urls
+  Retweeted_status: retweeted_status.text,
+  retweeted_status.created_at... (and all other tweet,
+  user, and entities fields) User: user.screen_name,
+  user.id_str, user.geo_enabled, user.location,
+  user.followers_count, user.statuses_count,
+  user.friends_count, user.description, user.lang,
+  user.name, user.url, user.created_at, user.time_zone Geo:
+  geo.coordinates
+}
+\examples{
+\dontrun{
+## connect to the Mongo database
+ mongo <- mongo.create("SMAPP_HOST:PORT", db="DATABASE")
+ mongo.authenticate(mongo, username="USERNAME", password="PASSWORD", db="DATABASE")
+ set <- "DATABASE.COLLECTION"
+
+## extract text from 100 most recent tweets
+ tweets <- extract.recent.tweets(set, limit=100, fields="text")
+
+## extract 100 most recent tweets that mention turkey and gezi
+ tweeets <- extract.recent.tweets(set, limit=100,
+   string=c("turkey", "gezi"))
+}
+}
+\author{
+  Pablo Barbera \email{pablo.barbera@nyu.edu}
+}
+

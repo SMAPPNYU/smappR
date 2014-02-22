@@ -1,0 +1,39 @@
+\name{word.frequencies}
+\alias{word.frequencies}
+\title{Counts words in a string vector}
+\usage{
+  word.frequencies(text, stopwords = NULL, verbose = TRUE,
+    sparsity = 0.999)
+}
+\arguments{
+  \item{text}{string or string vector, text from which
+  words are counted}
+
+  \item{stopwords}{Additional stopwords to be removed.}
+
+  \item{verbose}{logical, default is \code{TRUE}, which
+  generates some output to the R console with information.}
+}
+\description{
+  \code{word.frequencies} splits a string vector into words
+  and returns a data frame with each unique word and how
+  many times it was used.
+}
+\examples{
+\dontrun{
+## connect to the Mongo database
+ mongo <- mongo.create("SMAPP_HOST:PORT", db="DATABASE")
+ mongo.authenticate(mongo, username="USERNAME", password="PASSWORD", db="DATABASE")
+ set <- "DATABASE.COLLECTION"
+
+## extract text from all tweets in the database
+ tweets <- extract.tweets(set, fields="text")
+
+## count words
+ wordFreq <- word.frequencies(tweets$text)
+}
+}
+\author{
+  Pablo Barbera \email{pablo.barbera@nyu.edu}
+}
+

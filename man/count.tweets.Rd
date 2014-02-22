@@ -1,0 +1,86 @@
+\name{count.tweets}
+\alias{count.tweets}
+\title{Connect to Mongo database and return count of tweets that match
+conditions specified in the arguments.}
+\usage{
+  count.tweets(set, string = NULL, retweets = NULL,
+    hashtags = NULL, from = NULL, to = NULL,
+    verbose = TRUE)
+}
+\arguments{
+  \item{set}{string, name of the collection of tweets in
+  the Mongo database to query.}
+
+  \item{string}{string or vector of strings, set to NULL by
+  default (will return count of all tweets). If it is a
+  string, it will return the number of tweets that contain
+  that string. If it is a vector of string, it will return
+  all tweets that contain at least one of them.}
+
+  \item{retweets}{logical, set to NULL by default (will
+  return count of all tweets). If \code{TRUE}, will count
+  only tweets that are retweets (i.e. contain an embededed
+  retweeted status - manual retweets are not included). If
+  \code{FALSE}, will count only tweets that are not
+  retweets (manual retweets are now included).}
+
+  \item{hashtags}{logical, set to NULL by default (will
+  return count of all tweets). If \code{TRUE}, will count
+  only tweets that use a hashtag. If \code{FALSE}, will
+  count only tweets that do not contain a hashtag.}
+
+  \item{from}{date, in string format. If different from
+  \code{NULL}, will consider only tweets after that date.
+  Note that using this field requires that the tweets have
+  a field in ISODate format called \code{datetime}}
+
+  \item{to}{date, in string format. If different from
+  \code{NULL}, will consider only tweets after that date.
+  Note that using this field requires that the tweets have
+  a field in ISODate format called \code{datetime}}
+
+  \item{verbose}{logical, default is \code{TRUE}, which
+  generates some output to the R console with information
+  about the count of tweets. If code{FALSE}, function will
+  not return any object.}
+}
+\description{
+  \code{count.tweets} opens a connection to the Mongo
+  database in the lab computer and will return the number
+  of tweets that match a series of conditions: whether it
+  contains a certain keyword, whether it is or not a
+  retweet, or whether or not it contains a hashtag.
+}
+\examples{
+\dontrun{
+## connect to the Mongo database
+ mongo <- mongo.create("SMAPP_HOST:PORT", db="DATABASE")
+ mongo.authenticate(mongo, username="USERNAME", password="PASSWORD", db="DATABASE")
+ set <- "DATABASE.COLLECTION"
+
+## count all tweets in the database
+ count.tweets(set)
+
+## count tweets that mention the word 'turkey'
+ count.tweets(set, string="turkey")
+
+## count tweets that mention the words 'turkey' and 'gezi'
+ count.tweets(set, string=c("turkey", "gezi"))
+
+## count all retweets in the database
+ count.tweets(set, retweets=TRUE)
+
+## count all tweets that mention 'turkey' and are not retweets
+ count.tweets(set, string="turkey", retweets=FALSE)
+
+## count all tweets that use a hashtag
+ count.tweets(set, hashtags=TRUE)
+
+## count all tweets from January 1st to January 15th
+ count.tweets(set, from="2014-01-01 00:00:00", to="2014-01-15 23:59:59")
+}
+}
+\author{
+  Pablo Barbera \email{pablo.barbera@nyu.edu}
+}
+

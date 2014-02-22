@@ -1,0 +1,49 @@
+\name{getTimeline}
+\alias{getTimeline}
+\title{Returns up to 3,200 recent tweets from a given user}
+\usage{
+  getTimeline(filename, n = 3200,
+    oauth_folder = "~/credentials", screen_name = NULL,
+    id = NULL, since_id = -1, trim_user = "true")
+}
+\arguments{
+  \item{filename}{file where tweets will be stored (in json
+  format)}
+
+  \item{n}{number of tweets to be downloaded (maximum is
+  3,200)}
+
+  \item{screen_name}{user name of the Twitter user for
+  which his/her tweets will be downloaded}
+
+  \item{id}{id of Twitter user for which his/her tweets
+  will be downloaded (Use either of these two arguments)}
+
+  \item{oauth_folder}{folder where OAuth tokens are
+  stored.}
+
+  \item{since_id}{id of the oldest tweet to be downloaded.
+  Useful if, for example, we're only interested in getting
+  tweets sent after a certain date.}
+
+  \item{trim_user}{if "true", downloaded tweets will
+  include user object embedded. If "false", only tweet
+  information will be downloaded.}
+
+  \item{cursor}{See
+  \url{https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline}}
+}
+\description{
+  \code{getTimeline} connects to the REST API of Twitter
+  and returns up to 3,200 recent tweets sent by these user.
+}
+\examples{
+\dontrun{
+## Download recent tweets by user "p_barbera"
+ friends <- getTimeline(screen_name="p_barbera", oauth_folder="oauth")
+}
+}
+\author{
+  Pablo Barbera \email{pablo.barbera@nyu.edu}
+}
+

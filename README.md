@@ -6,6 +6,36 @@
 
 # Code examples
 
+This document is intended as "coobook" that provides solutions to common tasks and problems in analyzing social media data collected by the lab.
+
+The first three steps are:
+
+1 - [Install the R packages necessary to do the analysis](https://github.com/SMAPPNYU/smappR#a-installing-r-packages)
+
+2 - [Create your own Twitter OAuth token](https://github.com/SMAPPNYU/smappR#b-creating-your-own-twitter-oauth-token) (only necessary if you plan to collect your own data)
+
+3 - [Connect to the lab Mongo DB server](https://github.com/SMAPPNYU/smappR#c-connecting-to-the-smapp-lab-server)
+
+The rest of the document offers "recipes" for the following situations:
+
+1 - [How can I count the number of tweets that match a set of conditions in a collection?](https://github.com/SMAPPNYU/smappR#1-how-can-i-count-the-number-of-tweets-in-a-collection)
+
+2 - [How can I extract a data set of tweets that mention a keyword?](https://github.com/SMAPPNYU/smappR#2-how-can-i-extract-a-data-set-of-tweets-that-mention-a-keyword)
+
+3 - [How can I find the most retweeted tweets in a collection?](https://github.com/SMAPPNYU/smappR#3-how-can-i-find-the-most-retweeted-tweets-in-a-collection)
+
+4 - [How can I visualize tweet volume in a collection?](https://github.com/SMAPPNYU/smappR#4-how-can-i-visualize-tweet-volume-in-a-collection)
+
+5 - [How can I count words in tweets and prepare a word cloud?](https://github.com/SMAPPNYU/smappR#5-how-can-i-prepare-a-word-cloud)
+
+6 - [How can I estimate the ideology of a Twitter user?](https://github.com/SMAPPNYU/smappR#6-how-can-i-estimate-the-ideology-of-a-twitter-user)
+
+7 - [How can I visualize a network of retweets?](https://github.com/SMAPPNYU/smappR#7-how-can-i-visualize-a-network-of-retweets)
+
+8 - [How can I start my own collection of tweets?](https://github.com/SMAPPNYU/smappR#8-how-can-i-start-my-own-collection-of-tweets)
+
+9 - [How can I collect public Facebook data?](https://github.com/SMAPPNYU/smappR#9-how-can-i-collect-public-facebook-data)
+
 ## A. Installing R packages
 
 The following block of code will install all packages that you need in order to run the code examples below. Most of them are available on CRAN. Rfacebook and streamR, the packages to capture Facebook and Twitter data, are also available on CRAN, but we will install the most recent version (on GitHub). Finally, we will also install our lab's R package.
@@ -75,7 +105,7 @@ mongo.authenticate(mongo, username='USERNAME', password='PASSWORD', db="DATABASE
 set <- "DATABASE.COLLECTION"
 ```
 
-## 1. How can I count the number of tweets in a collection?
+## 1. How can I count the number of tweets that match a set of conditions in a collection?
 
 ```
 # how many tweets have we captured so far?
@@ -346,8 +376,8 @@ write.csv(df, file="data/edgelist_congress.csv", row.names=F)
 library(streamR)
 load("~/Dropbox/credentials/my_oauth")
 
-# How can I collect all tweets that mention a given keyword?
-filterStream(file.name="obama_tweets.json", track="obama", oauth=my_oauth,
+# How can I collect all tweets that mention certain keywords?
+filterStream(file.name="obama_tweets.json", track=c("obama", "romney"), oauth=my_oauth,
     tweets=50)
 
 # How can I then see the tweets I collected?

@@ -123,7 +123,8 @@ library(foreign)
 write.dta(df, "drone_tweets.dta")
 
 # what if I also want the retweet count and the coordinates of each tweet?
-tweets <- extract.tweets(set, string="drone",  fields = c("created_at", "user.screen_name", "text", "retweeted_status.retweet_count", "geo.coordinates"))
+tweets <- extract.tweets(set, string="drone",  fields = c("created_at", "user.screen_name", 
+    "text", "retweeted_status.retweet_count", "geo.coordinates"))
 
 # what fields can I include here?
 ?extract.tweets
@@ -281,7 +282,6 @@ ideology.plot(results)
 
 # downloading list of followers of a given user
 followers <- getFollowers(screen_name=user, oauth_folder="~/Dropbox/credentials/")
-
 ```
 
 ## 7. How can I visualize a network of retweets?

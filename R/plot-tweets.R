@@ -8,11 +8,21 @@
 #' Plots number of tweets by hour or minute
 #'
 #' @author
-#' Pablo Barbera \email{pablo.barbera@@nyu.edu}
+#' Pablo Barbera \email{pablo.barbera@@nyu.edu}, Megan Metzger \email{megan.metzger@@nyu.edu}
 #'
 #' @param tweets object of class tweets
 #'
 #' @param breaks either "minutes" or "hours"
+#'
+#' @param return_plot If \code{TRUE}, function returns plot as an object (useful
+#' when saving to a file.)
+#'
+#' @param missing_minutes If \code{TRUE}, minutes with zero tweets in the plot
+#' where breaks is minutes will be interpolated.
+#'
+#' @param hours numeric. When different from zero, will add that number of hours
+#' to the timestamp of the tweets. That is, when hours is zero, then all times
+#' are expressed in NY time.
 #'
 #' @examples \dontrun{
 #' ## connect to the Mongo database
@@ -26,13 +36,13 @@
 #' }
 #'
 
-plot.tweets <- function(tweets, breaks='hours'){
+plot.tweets <- function(tweets, breaks='hours', return_plot=FALSE, missing_minutes=FALSE, hours=0){
     if ('created_at' %in% names(tweets) == FALSE){
         stop("Tweets do not contain 'created_at' field. I don't know how to plot tweets without that field!")
     }
     require(ggplot2)
     dates <- tweets$created_at
-    dates <- format.twitter.date(dates)
+    dates <- format.twitter.date(dates) +60*60*hours
     if (breaks=='minutes'){
         mins <- substr(as.character(dates), 1, 16)
         n.tweets <- table(mins)
@@ -43,19 +53,25 @@ plot.tweets <- function(tweets, breaks='hours'){
         tweets.df <- data.frame(minute = mins.x, 
             tweets = 0, stringsAsFactors=F)
         tweets.df$tweets[mins.x.text %in% names(n.tweets)] <- as.numeric(n.tweets)
+        if (missing_minutes==TRUE){
+          missing <- which(substr(as.character(tweets.df$minute), 15, 16) %in% c("00", "30"))
+          missing <- unique(c(missing, which(tweets.df$tweets<10)))
+          tweets.df <- tweets.df[-missing,]      
+        }
 
         p <- ggplot(tweets.df, aes(x=minute, y=tweets))
         pq <- pq <- p + geom_line() +
             scale_x_datetime("GMT Time") +
             theme_bw() +
              scale_y_continuous(name="Tweets Per Minute", expand = c(0, 0),
-                limits=c(0, max(tweets.df$tweets))) +
+                limits=c(0, max(tweets.df$tweets)), label=comma) +
             theme(axis.line = element_line(colour = "black"),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
             panel.border = element_blank(),
             panel.background = element_blank())
         print(pq)
+        if (return_plot) return(pq)
     }
     if (breaks=='hours'){
         hours <- substr(as.character(dates), 1, 13)
@@ -75,13 +91,14 @@ plot.tweets <- function(tweets, breaks='hours'){
             scale_x_datetime("GMT Time") +
             theme_bw() +
              scale_y_continuous(name="Tweets Per Hour", expand = c(0, 0),
-                limits=c(0, max(tweets.df$tweets))) +
+                limits=c(0, max(tweets.df$tweets)), label=comma) +
             theme(axis.line = element_line(colour = "black"),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
             panel.border = element_blank(),
             panel.background = element_blank())
         print(pq)
+        if (return_plot) return(pq)
     }
     if (breaks=='days'){
         days <- substr(as.character(dates), 1, 10)
@@ -99,7 +116,7 @@ plot.tweets <- function(tweets, breaks='hours'){
         pq <- pq <- p + geom_line() +
             theme_bw() +
              scale_y_continuous(name="Tweets Per Day", expand = c(0, 0),
-                limits=c(0, max(tweets.df$tweets))) +
+                limits=c(0, max(tweets.df$tweets)), label=comma) +
             theme(axis.line = element_line(colour = "black"),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
@@ -107,6 +124,7 @@ plot.tweets <- function(tweets, breaks='hours'){
             panel.background = element_blank(),
             axis.title.x = element_blank())
         print(pq)
+        if (return_plot) return(pq)
     }
 
 }

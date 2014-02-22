@@ -26,11 +26,11 @@
 #' 
 #' @param from date, in string format. If different from \code{NULL}, will 
 #' consider only tweets after that date. Note that using this field requires that
-#' the tweets have a field in ISODate format called \code{datetime}
+#' the tweets have a field in ISODate format called \code{timestamp}. All times are GMT.
 #'
 #' @param to date, in string format. If different from \code{NULL}, will 
 #' consider only tweets after that date. Note that using this field requires that
-#' the tweets have a field in ISODate format called \code{datetime}
+#' the tweets have a field in ISODate format called \code{timestamp}. All times are GMT.
 #'
 #' @param verbose logical, default is \code{TRUE}, which generates some output to the
 #' R console with information about the count of tweets.

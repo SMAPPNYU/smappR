@@ -2,12 +2,26 @@
 \alias{plot.tweets}
 \title{Plots number of tweets by hour or minute}
 \usage{
-  \method{plot}{tweets} (tweets, breaks = "hours")
+  \method{plot}{tweets} (tweets, breaks = "hours",
+    return_plot = FALSE, missing_minutes = FALSE,
+    hours = 0)
 }
 \arguments{
   \item{tweets}{object of class tweets}
 
   \item{breaks}{either "minutes" or "hours"}
+
+  \item{return_plot}{If \code{TRUE}, function returns plot
+  as an object (useful when saving to a file.)}
+
+  \item{missing_minutes}{If \code{TRUE}, minutes with zero
+  tweets in the plot where breaks is minutes will be
+  interpolated.}
+
+  \item{hours}{numeric. When different from zero, will add
+  that number of hours to the timestamp of the tweets. That
+  is, when hours is zero, then all times are expressed in
+  NY time.}
 }
 \description{
   Plots number of tweets by hour or minute
@@ -25,6 +39,7 @@
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+  Pablo Barbera \email{pablo.barbera@nyu.edu}, Megan
+  Metzger \email{megan.metzger@nyu.edu}
 }
 

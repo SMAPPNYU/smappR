@@ -2,12 +2,16 @@
 \alias{extract.hashtags}
 \title{Connect to Mongo database and extract hashtags from each tweet.}
 \usage{
-  extract.hashtags(set, string = NULL, from = NULL,
-    to = NULL, verbose = TRUE)
+  extract.hashtags(set, text = NULL, string = NULL,
+    from = NULL, to = NULL, verbose = TRUE)
 }
 \arguments{
   \item{set}{string, name of the collection of tweets in
   the Mongo database to query.}
+
+  \item{text}{vector with tweets text. To be used when all
+  other arguments are \code{NULL}. The function then will
+  extract and count the hashtags in in text.}
 
   \item{string}{string or vector of strings, set to NULL by
   default (will return hashtags for all tweets). If it is a

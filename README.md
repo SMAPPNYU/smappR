@@ -10,15 +10,15 @@ This document is intended as "coobook" that provides solutions to common tasks a
 
 The first three steps are:
 
-1 - [Install the R packages necessary to do the analysis](https://github.com/SMAPPNYU/smappR#a-installing-r-packages)
+1 - [Install the R packages necessary to do the analysis](#a-installing-r-packages)
 
-2 - [Create your own Twitter OAuth token](https://github.com/SMAPPNYU/smappR#b-creating-your-own-twitter-oauth-token) (only necessary if you plan to collect your own data)
+2 - [Create your own Twitter OAuth token](#b-creating-your-own-twitter-oauth-token) (only necessary if you plan to collect your own data)
 
 3 - [Connect to the lab Mongo DB server](https://github.com/SMAPPNYU/smappR#c-connecting-to-the-smapp-lab-server)
 
 The rest of the document offers "recipes" for the following situations:
 
-1 - [How can I count the number of tweets that match a set of conditions in a collection?](https://github.com/SMAPPNYU/smappR#1-how-can-i-count-the-number-of-tweets-in-a-collection)
+1 - [How can I count the number of tweets that match a set of conditions in a collection?](https://github.com/SMAPPNYU/smappR#1-how-can-i-count-the-number-of-tweets-that-match-a-set-of-conditions-in-a-collection)
 
 2 - [How can I extract a data set of tweets that mention a keyword?](https://github.com/SMAPPNYU/smappR#2-how-can-i-extract-a-data-set-of-tweets-that-mention-a-keyword)
 
@@ -28,13 +28,17 @@ The rest of the document offers "recipes" for the following situations:
 
 5 - [How can I count words in tweets and prepare a word cloud?](https://github.com/SMAPPNYU/smappR#5-how-can-i-prepare-a-word-cloud)
 
-6 - [How can I estimate the ideology of a Twitter user?](https://github.com/SMAPPNYU/smappR#6-how-can-i-estimate-the-ideology-of-a-twitter-user)
+6 - [How can I download all the tweets, followers or friends of any Twitter user?](https://github.com/SMAPPNYU/smappR#6-how-can-i-download-all-the-tweets-followers-or-friends-of-any-twitter-user)
 
-7 - [How can I visualize a network of retweets?](https://github.com/SMAPPNYU/smappR#7-how-can-i-visualize-a-network-of-retweets)
+7 - [How can I download profile information about multiple users and parse their location into geographic coordinates?](https://github.com/SMAPPNYU/smappR#7-how-can-i-download-profile-information-about-multiple-users-and-parse-their-location-into-geographic-coordinates)
 
-8 - [How can I start my own collection of tweets?](https://github.com/SMAPPNYU/smappR#8-how-can-i-start-my-own-collection-of-tweets)
+8 - [How can I estimate the ideology of a Twitter user?](https://github.com/SMAPPNYU/smappR#6-how-can-i-estimate-the-ideology-of-a-twitter-user)
 
-9 - [How can I collect public Facebook data?](https://github.com/SMAPPNYU/smappR#9-how-can-i-collect-public-facebook-data)
+9 - [How can I visualize a network of retweets?](https://github.com/SMAPPNYU/smappR#7-how-can-i-visualize-a-network-of-retweets)
+
+10 - [How can I start my own collection of tweets?](https://github.com/SMAPPNYU/smappR#8-how-can-i-start-my-own-collection-of-tweets)
+
+11 - [How can I collect public Facebook data?](https://github.com/SMAPPNYU/smappR#9-how-can-i-collect-public-facebook-data)
 
 ## A. Installing R packages
 
@@ -294,7 +298,43 @@ wordcloud(words=names(wordFreq), freq=wordFreq, max.words=50,
 ?extract.recent.tweets
 ```
 
-## 6. How can I estimate the ideology of a Twitter user?
+## 6. How can I download all the tweets, followers or friends of any Twitter user?
+
+```
+# downloading recent tweets sent by a user
+getTimeline(screen_name = "p_barbera",
+    filename = "pablo_tweets.json", # where tweets will be stored
+    n=500, ## number of tweets to download (max is 3,200)
+    oauth_folder = "~/Dropbox/credentials" )
+
+# downloading list of followers of a given user
+getFollowers(screen_name = "p_barbera", oauth_folder="~/Dropbox/credentials")
+
+# downloading list of friends of a given user
+getFriends(screen_name = "p_barbera", oauth_folder="~/Dropbox/credentials")
+
+# BONUS: count the most common hashtags sent by a user
+tweets <- parseTweets("pablo_tweets.json")
+ht <- extract.hashtags(text=tweets$text)
+summary(ht, n=10)
+```
+
+## 7. How can I download profile information about multiple users and parse their location into geographic coordinates?
+
+```
+# downloading information about multiple users
+users.data <- getUsers(screen_names=c("p_barbera", "j_a_tucker", "smapp_nyu"),
+    oauth_folder = "~/Dropbox/credentials")
+
+# parsing locations into coordinates
+locations <- list()
+for (u in 1:length(users.data)){
+    locations[[u]] <- getGeo(users.data[[u]][['location']])
+}
+
+```
+
+## 8. How can I estimate the ideology of a Twitter user?
 
 ```
 # step 1: downloading list of friends for a user
@@ -314,7 +354,7 @@ ideology.plot(results)
 followers <- getFollowers(screen_name=user, oauth_folder="~/Dropbox/credentials/")
 ```
 
-## 7. How can I visualize a network of retweets?
+## 9. How can I visualize a network of retweets?
 
 ```
 # 1) download last 10,000 retweets, with author of retweet and author of
@@ -369,7 +409,7 @@ write.csv(df, file="data/edgelist_congress.csv", row.names=F)
 ```
 
 
-## 8. How can I start my own collection of tweets?
+## 10. How can I start my own collection of tweets?
 
 ```
 # loading library and OAuth token
@@ -405,7 +445,7 @@ filterStream(file.name="geo_tweets.json", oauth=my_oauth,
     locations=c(-180,-90,180,90), tweets=100)
 ```
 
-## 9. How can I collect public Facebook data?
+## 11. How can I collect public Facebook data?
 
 ```
 # loading library

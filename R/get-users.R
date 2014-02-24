@@ -13,7 +13,7 @@
 #' @author
 #' Pablo Barbera \email{pablo.barbera@@nyu.edu}
 #'
-#' @param screen_name user names of the Twitter users
+#' @param screen_names user names of the Twitter users
 #' 
 #' @param id ids of Twitter users
 #'
@@ -25,7 +25,7 @@
 #'
 #' @examples \dontrun{
 #' ## Download user data for user "p_barbera"
-#'  userdata <- getUsers(screen_name="p_barbera", oauth_folder="oauth")
+#'  userdata <- getUsers(screen_names="p_barbera", oauth_folder="oauth")
 #' }
 #'
 
@@ -60,9 +60,9 @@ getUsers <- function(oauth_folder="~/credentials", screen_names=NULL,
     url <- "https://api.twitter.com/1.1/users/lookup.json"
 
     ## first API call
-    if (!is.null(screen_name)){
+    if (!is.null(screen_names)){
         screen_names <- paste(screen_names, collapse=",")
-        params <- list(screen_name = screen_name, include_entities=include_entities)
+        params <- list(screen_name = screen_names, include_entities=include_entities)
     }
     if (!is.null(id)){
         ids <- paste(id, collapse=",")

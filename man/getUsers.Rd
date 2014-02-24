@@ -7,7 +7,7 @@
     include_entities = "true")
 }
 \arguments{
-  \item{screen_name}{user names of the Twitter users}
+  \item{screen_names}{user names of the Twitter users}
 
   \item{id}{ids of Twitter users}
 
@@ -25,7 +25,7 @@
 \examples{
 \dontrun{
 ## Download user data for user "p_barbera"
- userdata <- getUsers(screen_name="p_barbera", oauth_folder="oauth")
+ userdata <- getUsers(screen_names="p_barbera", oauth_folder="oauth")
 }
 }
 \author{

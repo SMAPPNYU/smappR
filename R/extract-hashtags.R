@@ -18,6 +18,10 @@
 #'
 #' @param set string, name of the collection of tweets in the Mongo database to query.
 #'
+#' @param text vector with tweets text. To be used when all other arguments
+#' are \code{NULL}. The function then will extract and count the hashtags in
+#' in text.
+#'
 #' @param string string or vector of strings, set to NULL by default (will 
 #' return hashtags for all tweets). If it is a string, it will return all 
 #' hashtags that were used in tweets containing that string. If it is a vector
@@ -58,45 +62,56 @@
 #'
 
 ## extract hashtags that appear associated with a string
-extract.hashtags <- function(set, string=NULL, from=NULL, to=NULL, verbose=TRUE)
+extract.hashtags <- function(set, text=NULL, string=NULL, from=NULL, to=NULL, verbose=TRUE)
 {
-    query <- list()
-    ## querying by date
-    if (!is.null(from)){
-        from.txt <- as.POSIXct(from, "%Y-%m-%d %H:%M:%S")
-        query <- c(query, list(timestamp=list('$gte'=from.txt)))
-    }
-    if (!is.null(to)){
-        to.txt <- as.POSIXct(to, "%Y-%m-%d %H:%M:%S")
-        query <- c(query, list(timestamp=list('$lt'=to.txt)))
-    }
-    ## querying by string using regex
-    if (!is.null(string)){
-        if (length(string)>1) { string <- paste(string, collapse='|') }
-        query <- c(query, list(text=list('$regex'=string, '$options'='i')))
-    }
+    if (is.null(text)){
+        query <- list()
+        ## querying by date
+        if (!is.null(from)){
+            from.txt <- as.POSIXct(from, "%Y-%m-%d %H:%M:%S")
+            query <- c(query, list(timestamp=list('$gte'=from.txt)))
+        }
+        if (!is.null(to)){
+            to.txt <- as.POSIXct(to, "%Y-%m-%d %H:%M:%S")
+            query <- c(query, list(timestamp=list('$lt'=to.txt)))
+        }
+        ## querying by string using regex
+        if (!is.null(string)){
+            if (length(string)>1) { string <- paste(string, collapse='|') }
+            query <- c(query, list(text=list('$regex'=string, '$options'='i')))
+        }   
+    
 
-
-    if (length(query)==0) query <- mongo.bson.empty()
-    n <- mongo.count(mongo, ns=set, query=query)
-    out <- rep(NA, n)
-    # making query
-    res <- mongo.find(mongo=mongo, ns=set, query=query, fields=list(entities.hashtags=1L))
-    i <- 1
-    if (verbose==TRUE) {pb <- txtProgressBar(min=1,max=n, style=3)}
-    while (mongo.cursor.next(res)) {
-        out[i] <- list(mongo.bson.to.list(mongo.cursor.value(res)))
-        i <- i + 1
-        if (verbose==TRUE) {setTxtProgressBar(pb, i)}
-    }    
-    lst <- unlist(lapply(out, "[[", "entities"))
-    hashtags <- lst[grep("text", names(lst))]
-    names(hashtags) <- NULL
-    hashtags <- table(hashtags)
-    sorted <- order(hashtags, decreasing=TRUE)
-    hashtags <- hashtags[sorted]
-    class(hashtags) <- "hashtags"
-    return(hashtags)
+        if (length(query)==0) query <- mongo.bson.empty()
+        n <- mongo.count(mongo, ns=set, query=query)
+        out <- rep(NA, n)
+        # making query
+        res <- mongo.find(mongo=mongo, ns=set, query=query, fields=list(entities.hashtags=1L))
+        i <- 1
+        if (verbose==TRUE) {pb <- txtProgressBar(min=1,max=n, style=3)}
+        while (mongo.cursor.next(res)) {
+            out[i] <- list(mongo.bson.to.list(mongo.cursor.value(res)))
+            i <- i + 1
+            if (verbose==TRUE) {setTxtProgressBar(pb, i)}
+        }    
+        lst <- unlist(lapply(out, "[[", "entities"))
+        hashtags <- lst[grep("text", names(lst))]
+        names(hashtags) <- NULL
+        hashtags <- table(hashtags)
+        sorted <- order(hashtags, decreasing=TRUE)
+        hashtags <- hashtags[sorted]
+        class(hashtags) <- "hashtags"
+        return(hashtags)
+    }
+    if (!is.null(text)){
+        hashtags <- regmatches(text,gregexpr("#(\\d|\\w)+",text))
+        hashtags <- unlist(hashtags)
+        hashtags <- table(hashtags)
+        sorted <- order(hashtags, decreasing=TRUE)
+        hashtags <- hashtags[sorted]
+        class(hashtags) <- "hashtags"
+        return(hashtags)
+    }
 }
 
 ## summary of retweets

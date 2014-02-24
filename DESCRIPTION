@@ -35,3 +35,4 @@ Collate:
     'format-twitter-date.R'
     'get-users.R'
     'get-geo.R'
+    'format-facebook-date.R'

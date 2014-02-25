@@ -61,7 +61,7 @@ plot.tweets <- function(tweets, breaks='hours', return_plot=FALSE, missing_minut
 
         p <- ggplot(tweets.df, aes(x=minute, y=tweets))
         pq <- pq <- p + geom_line() +
-            scale_x_datetime("GMT Time") +
+            scale_x_datetime("EST Time") +
             theme_bw() +
              scale_y_continuous(name="Tweets Per Minute", expand = c(0, 0),
                 limits=c(0, max(tweets.df$tweets)), label=comma) +
@@ -88,7 +88,7 @@ plot.tweets <- function(tweets, breaks='hours', return_plot=FALSE, missing_minut
         }
         p <- ggplot(tweets.df, aes(x=hour, y=tweets))
         pq <- pq <- p + geom_line() +
-            scale_x_datetime("GMT Time") +
+            scale_x_datetime("EST Time") +
             theme_bw() +
              scale_y_continuous(name="Tweets Per Hour", expand = c(0, 0),
                 limits=c(0, max(tweets.df$tweets)), label=comma) +

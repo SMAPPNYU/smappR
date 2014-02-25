@@ -40,7 +40,7 @@ plot.tweets <- function(tweets, breaks='hours', return_plot=FALSE, missing_minut
     if ('created_at' %in% names(tweets) == FALSE){
         stop("Tweets do not contain 'created_at' field. I don't know how to plot tweets without that field!")
     }
-    require(ggplot2)
+    require(ggplot2); require(scales)
     dates <- tweets$created_at
     dates <- format.twitter.date(dates) +60*60*hours
     if (breaks=='minutes'){

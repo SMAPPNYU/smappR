@@ -46,7 +46,7 @@ The following block of code will install all packages that you need in order to 
 
     doInstall <- TRUE  # Change to FALSE if you don't want packages installed.
     toInstall <- c("ROAuth", "igraph", "ggplot2", "wordcloud", "devtools", "tm",
-        "R2WinBUGS", "rmongodb")
+        "R2WinBUGS", "rmongodb", "scales")
     if(doInstall){
         install.packages(toInstall, repos = "http://cran.r-project.org")
         library(devtools)

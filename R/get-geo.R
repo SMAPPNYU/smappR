@@ -38,7 +38,7 @@ getGeo <- function(location, verbose=FALSE, rdstk="http://www.datasciencetoolkit
             result[['lng']] <- sub(x=coordinates.clean, 
                 pattern='.*,[[:blank:]]?(-?[0-9]{1,3}\\.[0-9]+).*', 
                 replacement="\\1")
-            Encoding(lng) <- "UTF-8"; Encoding(lat) <- "UTF-8"
+            Encoding(result[['lng']]) <- "UTF-8"; Encoding(result[['lat']]) <- "UTF-8"
             geo.info <- coordinates2politics(result[['lat']], result[['lng']], rdstk=rdstk)
             for (p in 1:length(geo.info[[1]]$politics)){
                 result[[(geo.info[[1]]$politics[[p]][['friendly_type']])]] <-

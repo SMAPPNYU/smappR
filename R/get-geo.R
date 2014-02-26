@@ -58,9 +58,11 @@ getGeo <- function(location, verbose=FALSE, rdstk="http://www.datasciencetoolkit
             result[['lat']] <- geo$interpretations[[1]]$feature$geometry$center[[1]]
             result[['lng']] <- geo$interpretations[[1]]$feature$geometry$center[[2]]
             geo.info <- coordinates2politics(result[['lat']], result[['lng']], rdstk=rdstk)
-            for (p in 1:length(geo.info[[1]]$politics)){
-                result[[(geo.info[[1]]$politics[[p]][['friendly_type']])]] <-
-                    geo.info[[1]]$politics[[p]][['name']]
+            if (length(geo.info[[1]]$politics)>0){
+                for (p in 1:length(geo.info[[1]]$politics)){
+                    result[[(geo.info[[1]]$politics[[p]][['friendly_type']])]] <-
+                        geo.info[[1]]$politics[[p]][['name']]
+                }
             }
         }
     }

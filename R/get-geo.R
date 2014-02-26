@@ -40,10 +40,16 @@ getGeo <- function(location, verbose=FALSE, rdstk="http://www.datasciencetoolkit
                 replacement="\\1")
             Encoding(result[['lng']]) <- "UTF-8"; Encoding(result[['lat']]) <- "UTF-8"
             geo.info <- coordinates2politics(result[['lat']], result[['lng']], rdstk=rdstk)
-            for (p in 1:length(geo.info[[1]]$politics)){
-                result[[(geo.info[[1]]$politics[[p]][['friendly_type']])]] <-
-                    geo.info[[1]]$politics[[p]][['name']]
+            if (length(geo.info[[1]]$politics)>0){
+                for (p in 1:length(geo.info[[1]]$politics)){
+                    result[[(geo.info[[1]]$politics[[p]][['friendly_type']])]] <-
+                        geo.info[[1]]$politics[[p]][['name']]
+                }
             }
+            if (length(geo.info[[1]]$politics)==0){
+                result <- NULL
+            }
+
     }
     # if not, try to extract coordinates from location
     if (!coord){
@@ -82,8 +88,17 @@ coordinates2politics <- function (latitude, longitude, session = getCurlHandle()
         sep = "")
     result <- getURL(paste(api, latitude, "%2c", longitude, sep = ""), 
         curl = session)
-    return(fromJSON(result))
+    if (nchar(result)>0){
+        return(fromJSON(result))
+    }
+    if (nchar(result==0)){
+        return(NULL)
+    } 
 }
+
+
+
+
 
 
 

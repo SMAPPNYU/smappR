@@ -4,7 +4,8 @@
 \usage{
   getTimeline(filename, n = 3200,
     oauth_folder = "~/credentials", screen_name = NULL,
-    id = NULL, since_id = -1, trim_user = "true")
+    id = NULL, since_id = -1, trim_user = "true",
+    sleep = 0.5)
 }
 \arguments{
   \item{filename}{file where tweets will be stored (in json
@@ -30,8 +31,9 @@
   include user object embedded. If "false", only tweet
   information will be downloaded.}
 
-  \item{cursor}{See
-  \url{https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline}}
+  \item{sleep}{numeric, number of seconds between API
+  calls. Higher number will increase reliability of API
+  calls; lower number will increase speed.}
 }
 \description{
   \code{getTimeline} connects to the REST API of Twitter

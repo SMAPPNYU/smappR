@@ -30,7 +30,8 @@
 #' @param trim_user if "true", downloaded tweets will include user object
 #' embedded. If "false", only tweet information will be downloaded.
 #'
-#' @param cursor See \url{https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline}
+#' @param sleep numeric, number of seconds between API calls. Higher number
+#' will increase reliability of API calls; lower number will increase speed.
 #'
 #' @examples \dontrun{
 #' ## Download recent tweets by user "p_barbera"
@@ -39,7 +40,7 @@
 #'
 
 getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_name=NULL, 
-    id=NULL, since_id=-1, trim_user="true"){
+    id=NULL, since_id=-1, trim_user="true", sleep=.5){
 
     require(rjson); require(ROAuth)
 
@@ -56,7 +57,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
         cr <- sample(creds, 1)
         cat(cr, "\n")
         load(cr)
-        Sys.sleep(1)
+        Sys.sleep(sleep)
         # sleep for 5 minutes if limit rate is less than 100
         rate.limit <- getLimitRate(my_oauth)
         if (rate.limit<100){
@@ -81,7 +82,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     
     url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
     cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl")) 
-    Sys.sleep(.5)
+    Sys.sleep(sleep)
     ## one API call less
     limit <- limit - 1
     ## changing oauth token if we hit the limit
@@ -90,7 +91,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
         cr <- sample(creds, 1)
         cat(cr, "\n")
         load(cr)
-        Sys.sleep(1)
+        Sys.sleep(sleep)
         # sleep for 5 minutes if limit rate is less than 100
         rate.limit <- getLimitRate(my_oauth)
         if (rate.limit<100){
@@ -130,7 +131,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
         }
         url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
         cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl")) 
-        Sys.sleep(1)
+        Sys.sleep(sleep)
         ## one API call less
         limit <- limit - 1
         ## changing oauth token if we hit the limit
@@ -139,7 +140,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
             cr <- sample(creds, 1)
             cat(cr, "\n")
             load(cr)
-            Sys.sleep(1)
+            Sys.sleep(sleep)
             # sleep for 5 minutes if limit rate is less than 100
             rate.limit <- getLimitRate(my_oauth)
             if (rate.limit<100){

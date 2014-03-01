@@ -75,6 +75,9 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     if (!is.null(id)){
         params <- list(id=id, count=200, trim_user=trim_user)   
     }
+    if (!is.null(since_id)){
+        params[["since_id"]] <- since_id
+    }
     
     url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
     cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl")) 
@@ -121,6 +124,9 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
         }
         if (!is.null(id)){
             params <- list(id=id, count=200, max_id=max_id, trim_user=trim_user)
+        }
+        if (!is.null(since_id)){
+            params[['since_id']] <- since_id
         }
         url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
         cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl")) 

@@ -5,7 +5,7 @@ conditions specified in the arguments.}
 \usage{
   count.tweets(set, string = NULL, retweets = NULL,
     hashtags = NULL, from = NULL, to = NULL,
-    verbose = TRUE)
+    user_id = NULL, screen_name = NULL, verbose = TRUE)
 }
 \arguments{
   \item{set}{string, name of the collection of tweets in
@@ -40,6 +40,14 @@ conditions specified in the arguments.}
   Note that using this field requires that the tweets have
   a field in ISODate format called \code{timestamp}. All
   times are GMT.}
+
+  \item{user_id}{numeric ID of a user. If different form
+  \code{NULL}, will count only tweets sent by that Twitter
+  user (if there are any in the collection)}
+
+  \item{screen_name}{screen name of a user. If different
+  form \code{NULL}, will count only tweets sent by that
+  Twitter user (if there are any in the collection)}
 
   \item{verbose}{logical, default is \code{TRUE}, which
   generates some output to the R console with information

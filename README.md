@@ -131,6 +131,9 @@ count.tweets(set, from="2013-12-10 00:00:00", to="2013-12-20 23:59:59")
 # how many tweets use a hashtag?
 count.tweets(set, hashtags=TRUE)
 
+# how many tweets were sent by barack obama?
+count.tweets(set, screen_name="barackobama")
+
 # for more info:
 ?count.tweets
 ```
@@ -179,6 +182,9 @@ tweets <- extract.tweets(set, size=100, string="obamacare", retweets=FALSE)
 
 # how can I extract a random sample of 0.5% of the entire collection?
 tweets <- extract.tweets(set, size=0.005)
+
+# how can I extract tweets that were sent by barack obama?
+tweets <- extract.tweets(set, screen_name="barackobama")
 
 # more info:
 ?extract.tweets

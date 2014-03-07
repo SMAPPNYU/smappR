@@ -51,6 +51,12 @@
 #' consider only tweets after that date. Note that using this field requires that
 #' the tweets have a field in ISODate format called \code{timestamp}. All times are GMT.
 #'
+#' @param user_id numeric ID of a user. If different form \code{NULL}, will return
+#' only tweets sent by that Twitter user (if there are any in the collection)
+#'
+#' @param screen_name screen name of a user. If different form \code{NULL}, will return
+#' only tweets sent by that Twitter user (if there are any in the collection)
+#'
 #' @param verbose logical, default is \code{TRUE}, which generates some output to the
 #' R console with information about the count of tweets.
 #'
@@ -94,7 +100,8 @@
 
 extract.tweets <- function(set, string=NULL, size=0, 
     fields=c('created_at', 'user.screen_name', 'text'),
-    retweets=NULL, hashtags=NULL, from=NULL, to=NULL, verbose=TRUE)
+    retweets=NULL, hashtags=NULL, from=NULL, to=NULL, user_id=NULL, 
+    screen_name=NULL, verbose=TRUE)
 {
 
     require(rmongodb)
@@ -105,6 +112,21 @@ extract.tweets <- function(set, string=NULL, size=0,
     if (!is.null(string)){
         if (length(string)>1) { string <- paste(string, collapse='|') }
         query <- c(query, list(text=list('$regex'=string, '$options'='i')))
+    }
+    ## querying by user
+    if (!is.null(user_id)){
+        if (length(user_id)==1) { query <- c(query, 
+            list(user.id_str=as.character(user_id)))}
+        if (length(user_id)==1){
+            stop("Error! You can only query tweets sent from one user")
+        }
+    }
+    if (!is.null(screen_name)){
+        if (length(screen_name)==1) { query <- c(query, 
+            list(user.screen_name=list('$regex'=paste0('^', screen_name), '$options'='i')))}
+        if (length(screen_name)==1){
+            stop("Error! You can only query tweets sent from one user")
+        }
     }
     
     ## adding size of random sample

@@ -97,14 +97,14 @@ count.tweets <- function(set, string=NULL, retweets=NULL, hashtags=NULL,
     if (!is.null(user_id)){
         if (length(user_id)==1) { query <- c(query, 
             list(user.id_str=as.character(user_id)))}
-        if (length(user_id)==1){
+        if (length(user_id)>1){
             stop("Error! You can only query tweets sent from one user")
         }
     }
     if (!is.null(screen_name)){
         if (length(screen_name)==1) { query <- c(query, 
             list(user.screen_name=list('$regex'=paste0('^', screen_name), '$options'='i')))}
-        if (length(screen_name)==1){
+        if (length(screen_name)>1){
             stop("Error! You can only query tweets sent from one user")
         }
     }

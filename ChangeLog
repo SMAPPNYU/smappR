@@ -10,3 +10,6 @@
     - added multiple keywords
     - remove private info from documentation
     - updated documentation to changes in code
+2014-03-11 - version 0.3.2:
+    - added getList function
+    - added query by user in mongoDB

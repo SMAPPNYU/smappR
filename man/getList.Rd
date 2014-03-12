@@ -1,0 +1,34 @@
+\name{getList}
+\alias{getList}
+\title{Returns the list of users added to a Twitter list}
+\usage{
+  getList(list_name, screen_name, oauth_folder,
+    cursor = -1)
+}
+\arguments{
+  \item{list_name}{name of the list}
+
+  \item{screen_name}{user that created the list}
+
+  \item{oauth_folder}{folder where OAuth tokens are
+  stored.}
+
+  \item{cursor}{See
+  \url{https://dev.twitter.com/docs/api/1.1/get/lists/members}}
+}
+\description{
+  \code{getList} connects to the REST API of Twitter and
+  returns a data frame with information about users
+  included in a Twitter list
+}
+\examples{
+\dontrun{
+## Download Twitter list of "official-twitter-accts" created by @twitter
+ accts <- getList(list_name="official-twitter-accts" screen_name="twitter",
+   oauth_folder="oauth")
+}
+}
+\author{
+  Pablo Barbera \email{pablo.barbera@nyu.edu}
+}
+

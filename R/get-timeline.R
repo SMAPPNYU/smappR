@@ -40,7 +40,7 @@
 #'
 
 getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_name=NULL, 
-    id=NULL, since_id=-1, trim_user="true", sleep=.5){
+    id=NULL, since_id=NULL, trim_user="true", sleep=.5){
 
     require(rjson); require(ROAuth)
 

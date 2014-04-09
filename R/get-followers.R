@@ -84,7 +84,7 @@ getFollowers <- function(screen_name, oauth_folder, cursor=-1, verbose=TRUE){
         cat(length(followers), "followers. Next cursor: ", cursor, "\n")
 
         ## changing oauth token if we hit the limit
-        cat(limit, " API calls left\n")
+        if (verbose){cat(limit, " API calls left\n")}
         while (limit==0){
             cr <- sample(creds, 1)
             if (verbose){cat(cr, "\n")}
@@ -96,7 +96,7 @@ getFollowers <- function(screen_name, oauth_folder, cursor=-1, verbose=TRUE){
                 Sys.sleep(300)
             }
             limit <- getLimitFollowers(my_oauth)
-            if(verbose){cat(limit, " API calls left\n")}
+            if (verbose){cat(limit, " API calls left\n")}
         }
     }
     return(followers)

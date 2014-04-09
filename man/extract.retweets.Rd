@@ -3,8 +3,8 @@
 \title{Connect to Mongo database and extract retweets that match
 conditions specified in the arguments.}
 \usage{
-  extract.retweets(set, string = NULL, min = 10,
-    from = NULL, to = NULL, verbose = TRUE)
+extract.retweets(set, string = NULL, min = 10, from = NULL, to = NULL,
+  verbose = TRUE)
 }
 \arguments{
   \item{set}{string, name of the collection of tweets in
@@ -38,23 +38,23 @@ conditions specified in the arguments.}
   about the count of tweets.}
 }
 \description{
-  \code{extract.tweets} opens a connection to the Mongo
-  database in the lab computer and will return all
-  retweets, or only retweets that mention a specific
-  keyword. In combination with \code{summary.retweets},
-  this is a quick way to display the most retweeted tweets
-  over a certain period of time.
+\code{extract.tweets} opens a connection to the Mongo
+database in the lab computer and will return all retweets,
+or only retweets that mention a specific keyword. In
+combination with \code{summary.retweets}, this is a quick
+way to display the most retweeted tweets over a certain
+period of time.
 }
 \details{
-  Note that this function will only return retweets that
-  are made using the built-in retweeting system - this is,
-  'manual' retweets using copy&paste are not included. Also
-  note that total retweet counts are based on Twitter's
-  internal tally, and do not reflect the number of retweets
-  in the database. In other words, it could happen that the
-  most popular retweet in a given moment is a tweet that
-  was originally sent days ago, but was retweeted during
-  the time of that tweets were captured.
+Note that this function will only return retweets that are
+made using the built-in retweeting system - this is,
+'manual' retweets using copy&paste are not included. Also
+note that total retweet counts are based on Twitter's
+internal tally, and do not reflect the number of retweets
+in the database. In other words, it could happen that the
+most popular retweet in a given moment is a tweet that was
+originally sent days ago, but was retweeted during the time
+of that tweets were captured.
 }
 \examples{
 \dontrun{
@@ -77,6 +77,6 @@ conditions specified in the arguments.}
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

@@ -2,8 +2,7 @@
 \alias{word.frequencies}
 \title{Counts words in a string vector}
 \usage{
-  word.frequencies(text, stopwords = NULL, verbose = TRUE,
-    sparsity = 0.999)
+word.frequencies(text, stopwords = NULL, verbose = TRUE, sparsity = 0.999)
 }
 \arguments{
   \item{text}{string or string vector, text from which
@@ -15,9 +14,9 @@
   generates some output to the R console with information.}
 }
 \description{
-  \code{word.frequencies} splits a string vector into words
-  and returns a data frame with each unique word and how
-  many times it was used.
+\code{word.frequencies} splits a string vector into words
+and returns a data frame with each unique word and how many
+times it was used.
 }
 \examples{
 \dontrun{
@@ -34,6 +33,6 @@
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

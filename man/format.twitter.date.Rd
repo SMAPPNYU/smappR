@@ -2,7 +2,7 @@
 \alias{format.twitter.date}
 \title{Converts from Twitter date format to R date format}
 \usage{
-  format.twitter.date(datestring, format = "datetime")
+\method{format}{twitter.date}(datestring, format = "datetime")
 }
 \arguments{
   \item{datestring}{Date string in Twitter format}
@@ -11,7 +11,7 @@
   "datetime" for POSIX.}
 }
 \description{
-  Converts from Twitter date format to R date format
+Converts from Twitter date format to R date format
 }
 \examples{
 \dontrun{
@@ -31,6 +31,6 @@
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

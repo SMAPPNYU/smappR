@@ -2,15 +2,15 @@
 \alias{ideology.plot}
 \title{Displays estimated ideology with other reference ideal points}
 \usage{
-  ideology.plot(results)
+ideology.plot(results)
 }
 \arguments{
   \item{results}{ideology estimation object from
   \code{estimate.ideology} function}
 }
 \description{
-  Displays estimated ideology with other reference ideal
-  points
+Displays estimated ideology with other reference ideal
+points
 }
 \examples{
 \dontrun{
@@ -25,6 +25,6 @@
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

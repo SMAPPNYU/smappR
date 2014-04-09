@@ -3,9 +3,9 @@
 \title{Connect to Mongo database and return count of tweets that match
 conditions specified in the arguments.}
 \usage{
-  count.tweets(set, string = NULL, retweets = NULL,
-    hashtags = NULL, from = NULL, to = NULL,
-    user_id = NULL, screen_name = NULL, verbose = TRUE)
+count.tweets(set, string = NULL, retweets = NULL, hashtags = NULL,
+  from = NULL, to = NULL, user_id = NULL, screen_name = NULL,
+  verbose = TRUE)
 }
 \arguments{
   \item{set}{string, name of the collection of tweets in
@@ -55,11 +55,11 @@ conditions specified in the arguments.}
   not return any object.}
 }
 \description{
-  \code{count.tweets} opens a connection to the Mongo
-  database in the lab computer and will return the number
-  of tweets that match a series of conditions: whether it
-  contains a certain keyword, whether it is or not a
-  retweet, or whether or not it contains a hashtag.
+\code{count.tweets} opens a connection to the Mongo
+database in the lab computer and will return the number of
+tweets that match a series of conditions: whether it
+contains a certain keyword, whether it is or not a retweet,
+or whether or not it contains a hashtag.
 }
 \examples{
 \dontrun{
@@ -91,6 +91,6 @@ conditions specified in the arguments.}
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

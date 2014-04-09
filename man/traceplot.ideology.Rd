@@ -2,7 +2,7 @@
 \alias{traceplot.ideology}
 \title{Displays trace plot for MCMC chains of ideology estimator}
 \usage{
-  traceplot.ideology(results, par = "theta")
+traceplot.ideology(results, par = "theta")
 }
 \arguments{
   \item{results}{ideology estimation object from
@@ -12,7 +12,7 @@
   displayed}
 }
 \description{
-  Displays trace plot for MCMC chains of ideology estimator
+Displays trace plot for MCMC chains of ideology estimator
 }
 \examples{
 \dontrun{
@@ -25,6 +25,6 @@
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

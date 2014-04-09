@@ -16,24 +16,3 @@ Depends:
 Recommends: ggplot2,
     scales
 License: GPL-2
-Collate:
-    'smappR-package.R'
-    'count-tweets.R'
-    'extract-tweets.R'
-    'extract-retweets.R'
-    'extract-hashtags.R'
-    'plot-tweets.R'
-    'estimate-ideology.R'
-    'get-friends.R'
-    'ideology-plot.R'
-    'traceplot-ideology.R'
-    'get-followers.R'
-    'extract-recent-tweets.R'
-    'word-frequencies.R'
-    'get-timeline.R'
-    'tweets-to-df.R'
-    'format-twitter-date.R'
-    'get-users.R'
-    'get-geo.R'
-    'format-facebook-date.R'
-    'get-list.R'

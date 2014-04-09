@@ -2,8 +2,8 @@
 \alias{estimate.ideology}
 \title{Estimates ideology for a given Twitter user}
 \usage{
-  estimate.ideology(user, friends, verbose = TRUE,
-    iters = 5000, n.warmup = 1000, thin = 20)
+estimate.ideology(user, friends, verbose = TRUE, iters = 5000,
+  n.warmup = 1000, thin = 20)
 }
 \arguments{
   \item{user}{screen name of user for which ideology is to
@@ -25,10 +25,10 @@
   \item{thin}{thinning of the sampler. Default is 20.}
 }
 \description{
-  \code{estimate.ideology} estimates ideology for a given
-  user using the Metropolis algorithm developed in Barbera,
-  2013. It takes as argument of the function a list of user
-  IDs indicating who a given user follows.
+\code{estimate.ideology} estimates ideology for a given
+user using the Metropolis algorithm developed in Barbera,
+2013. It takes as argument of the function a list of user
+IDs indicating who a given user follows.
 }
 \examples{
 \dontrun{
@@ -39,6 +39,6 @@
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

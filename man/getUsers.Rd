@@ -2,9 +2,8 @@
 \alias{getUsers}
 \title{Returns user data for up to 100 Twitter users}
 \usage{
-  getUsers(oauth_folder = "~/credentials",
-    screen_names = NULL, id = NULL,
-    include_entities = "true")
+getUsers(oauth_folder = "~/credentials", screen_names = NULL, id = NULL,
+  include_entities = "true")
 }
 \arguments{
   \item{screen_names}{user names of the Twitter users}
@@ -18,9 +17,9 @@
   stored.}
 }
 \description{
-  \code{getUsers} connects to the REST API of Twitter and
-  returns user objects (user information) for up to 100
-  Twitter users, based on their screen names or user IDs
+\code{getUsers} connects to the REST API of Twitter and
+returns user objects (user information) for up to 100
+Twitter users, based on their screen names or user IDs
 }
 \examples{
 \dontrun{
@@ -29,6 +28,6 @@
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

@@ -2,8 +2,8 @@
 \alias{getGeo}
 \title{Returns geographic information about a location string}
 \usage{
-  getGeo(location, verbose = FALSE,
-    rdstk = "http://www.datasciencetoolkit.org")
+getGeo(location, verbose = FALSE,
+  rdstk = "http://www.datasciencetoolkit.org")
 }
 \arguments{
   \item{location}{location string for which information is
@@ -13,10 +13,10 @@
   on console.}
 }
 \description{
-  \code{getGeo} connects to the Data Science Tool Kit and
-  converts the location string into a pair of coordinates,
-  and then into information (city, state, country,
-  congressional district...) for those coordinates
+\code{getGeo} connects to the Data Science Tool Kit and
+converts the location string into a pair of coordinates,
+and then into information (city, state, country,
+congressional district...) for those coordinates
 }
 \examples{
 \dontrun{
@@ -25,6 +25,6 @@
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

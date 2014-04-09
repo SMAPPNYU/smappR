@@ -2,8 +2,8 @@
 \alias{extract.hashtags}
 \title{Connect to Mongo database and extract hashtags from each tweet.}
 \usage{
-  extract.hashtags(set, text = NULL, string = NULL,
-    from = NULL, to = NULL, verbose = TRUE)
+extract.hashtags(set, text = NULL, string = NULL, from = NULL,
+  to = NULL, verbose = TRUE)
 }
 \arguments{
   \item{set}{string, name of the collection of tweets in
@@ -37,12 +37,12 @@
   about the count of tweets.}
 }
 \description{
-  \code{extract.hashtags} opens a connection to the Mongo
-  database in the lab computer and returns a list of
-  hashtags used in all tweets, or in tweets that contain a
-  given keyword. In combination with
-  \code{summary.retweets}, this is a quick way to display
-  the top hashtags used in a collection of tweets.
+\code{extract.hashtags} opens a connection to the Mongo
+database in the lab computer and returns a list of hashtags
+used in all tweets, or in tweets that contain a given
+keyword. In combination with \code{summary.retweets}, this
+is a quick way to display the top hashtags used in a
+collection of tweets.
 }
 \examples{
 \dontrun{
@@ -65,6 +65,6 @@ summary(ht, n=10)
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

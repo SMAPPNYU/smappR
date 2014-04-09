@@ -2,8 +2,7 @@
 \alias{getList}
 \title{Returns the list of users added to a Twitter list}
 \usage{
-  getList(list_name, screen_name, oauth_folder,
-    cursor = -1)
+getList(list_name, screen_name, oauth_folder, cursor = -1)
 }
 \arguments{
   \item{list_name}{name of the list}
@@ -17,9 +16,9 @@
   \url{https://dev.twitter.com/docs/api/1.1/get/lists/members}}
 }
 \description{
-  \code{getList} connects to the REST API of Twitter and
-  returns a data frame with information about users
-  included in a Twitter list
+\code{getList} connects to the REST API of Twitter and
+returns a data frame with information about users included
+in a Twitter list
 }
 \examples{
 \dontrun{
@@ -29,6 +28,6 @@
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

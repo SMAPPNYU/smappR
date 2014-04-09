@@ -3,11 +3,10 @@
 \title{Connect to Mongo database and extract tweets that match
 conditions specified in the arguments.}
 \usage{
-  extract.tweets(set, string = NULL, size = 0,
-    fields = c("created_at", "user.screen_name", "text"),
-    retweets = NULL, hashtags = NULL, from = NULL,
-    to = NULL, user_id = NULL, screen_name = NULL,
-    verbose = TRUE)
+extract.tweets(set, string = NULL, size = 0, fields = c("created_at",
+  "user.screen_name", "text"), retweets = NULL, hashtags = NULL,
+  from = NULL, to = NULL, user_id = NULL, screen_name = NULL,
+  verbose = TRUE)
 }
 \arguments{
   \item{set}{string, name of the collection of tweets in
@@ -71,33 +70,31 @@ conditions specified in the arguments.}
   about the count of tweets.}
 }
 \description{
-  \code{extract.tweets} opens a connection to the Mongo
-  database in the lab computer and will return tweets that
-  match a series of conditions: whether it contains a
-  certain keyword, whether it is or not a retweet, or
-  whether or not it contains a hashtag. It allows to
-  specify the fields of the tweet to be extracted. If
-  desired, it can also return a fixed number of tweets that
-  will represent a random sample of all tweets in the
-  database.
+\code{extract.tweets} opens a connection to the Mongo
+database in the lab computer and will return tweets that
+match a series of conditions: whether it contains a certain
+keyword, whether it is or not a retweet, or whether or not
+it contains a hashtag. It allows to specify the fields of
+the tweet to be extracted. If desired, it can also return a
+fixed number of tweets that will represent a random sample
+of all tweets in the database.
 }
 \details{
-  The following is a non-exhaustive of relevant fields that
-  can be specified on the \code{fields} argument (for a
-  complete list, check the documentation at:
-  \url{https://dev.twitter.com/docs/platform-objects}
-  Tweet: text, created_at, id_str, favorite_count, source,
-  retweeted, r retweet_count, lang, in_reply_to_status_id,
-  in_reply_to_screen_name Entities: entities.hashtags,
-  entities.user_mentions, entities.hashtags, entities.urls
-  Retweeted_status: retweeted_status.text,
-  retweeted_status.created_at... (and all other tweet,
-  user, and entities fields) User: user.screen_name,
-  user.id_str, user.geo_enabled, user.location,
-  user.followers_count, user.statuses_count,
-  user.friends_count, user.description, user.lang,
-  user.name, user.url, user.created_at, user.time_zone Geo:
-  geo.coordinates
+The following is a non-exhaustive of relevant fields that
+can be specified on the \code{fields} argument (for a
+complete list, check the documentation at:
+\url{https://dev.twitter.com/docs/platform-objects} Tweet:
+text, created_at, id_str, favorite_count, source,
+retweeted, r retweet_count, lang, in_reply_to_status_id,
+in_reply_to_screen_name Entities: entities.hashtags,
+entities.user_mentions, entities.hashtags, entities.urls
+Retweeted_status: retweeted_status.text,
+retweeted_status.created_at... (and all other tweet, user,
+and entities fields) User: user.screen_name, user.id_str,
+user.geo_enabled, user.location, user.followers_count,
+user.statuses_count, user.friends_count, user.description,
+user.lang, user.name, user.url, user.created_at,
+user.time_zone Geo: geo.coordinates
 }
 \examples{
 \dontrun{
@@ -124,6 +121,6 @@ conditions specified in the arguments.}
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

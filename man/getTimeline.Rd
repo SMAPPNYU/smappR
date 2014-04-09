@@ -2,10 +2,9 @@
 \alias{getTimeline}
 \title{Returns up to 3,200 recent tweets from a given user}
 \usage{
-  getTimeline(filename, n = 3200,
-    oauth_folder = "~/credentials", screen_name = NULL,
-    id = NULL, since_id = -1, trim_user = "true",
-    sleep = 0.5)
+getTimeline(filename, n = 3200, oauth_folder = "~/credentials",
+  screen_name = NULL, id = NULL, since_id = NULL, trim_user = "true",
+  sleep = 0.5)
 }
 \arguments{
   \item{filename}{file where tweets will be stored (in json
@@ -36,8 +35,8 @@
   calls; lower number will increase speed.}
 }
 \description{
-  \code{getTimeline} connects to the REST API of Twitter
-  and returns up to 3,200 recent tweets sent by these user.
+\code{getTimeline} connects to the REST API of Twitter and
+returns up to 3,200 recent tweets sent by these user.
 }
 \examples{
 \dontrun{
@@ -46,6 +45,6 @@
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

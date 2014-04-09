@@ -2,7 +2,7 @@
 \alias{format.facebook.date}
 \title{Converts from Facebook date format to R date format}
 \usage{
-  format.facebook.date(datestring, format = "datetime")
+\method{format}{facebook.date}(datestring, format = "datetime")
 }
 \arguments{
   \item{datestring}{Date string in Facebook format}
@@ -11,7 +11,7 @@
   "datetime" for POSIX.}
 }
 \description{
-  Converts from Facebook date format to R date format
+Converts from Facebook date format to R date format
 }
 \examples{
 \dontrun{
@@ -21,6 +21,6 @@
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}
 }
 

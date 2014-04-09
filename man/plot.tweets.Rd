@@ -2,9 +2,8 @@
 \alias{plot.tweets}
 \title{Plots number of tweets by hour or minute}
 \usage{
-  \method{plot}{tweets} (tweets, breaks = "hours",
-    return_plot = FALSE, missing_minutes = FALSE,
-    hours = 0)
+\method{plot}{tweets}(tweets, breaks = "hours", return_plot = FALSE,
+  missing_minutes = FALSE, hours = 0)
 }
 \arguments{
   \item{tweets}{object of class tweets}
@@ -24,7 +23,7 @@
   NY time.}
 }
 \description{
-  Plots number of tweets by hour or minute
+Plots number of tweets by hour or minute
 }
 \examples{
 \dontrun{
@@ -39,7 +38,7 @@
 }
 }
 \author{
-  Pablo Barbera \email{pablo.barbera@nyu.edu}, Megan
-  Metzger \email{megan.metzger@nyu.edu}
+Pablo Barbera \email{pablo.barbera@nyu.edu}, Megan Metzger
+\email{megan.metzger@nyu.edu}
 }
 

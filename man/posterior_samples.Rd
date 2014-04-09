@@ -2,10 +2,13 @@
 \name{posterior_samples}
 \alias{posterior_samples}
 \title{Posterior samples of ideology estimates for elites}
+\usage{
+data(posterior_samples)
+}
 \description{
-  List that contains posterior samples of ideology and
-  popularity estimates for elites (politicians, media
-  outlets, and journalists)
+List that contains posterior samples of ideology and
+popularity estimates for elites (politicians, media
+outlets, and journalists)
 }
 \keyword{datasets}
 

@@ -19,6 +19,8 @@
 #'
 #' @param cursor See \url{https://dev.twitter.com/docs/api/1.1/get/friends/ids}
 #'
+#' @param verbose If \code{TRUE}, prints information about API calls on console
+#'
 #'
 #' @examples \dontrun{
 #' ## Download list of friends of user "p_barbera"
@@ -26,7 +28,7 @@
 #' }
 #'
 
-getFriends <- function(screen_name, oauth_folder, cursor=-1){
+getFriends <- function(screen_name, oauth_folder, cursor=-1, verbose=TRUE){
 
     require(rjson); require(ROAuth)
 
@@ -34,14 +36,14 @@ getFriends <- function(screen_name, oauth_folder, cursor=-1){
     creds <- list.files(oauth_folder, full.names=T)
     ## open a random credential
     cr <- sample(creds, 1)
-    cat(cr, "\n")
+    if (verbose){cat(cr, "\n")}
     load(cr)
     ## while rate limit is 0, open a new one
     limit <- getLimitFriends(my_oauth)
-    cat(limit, " API calls left\n")
+    if (verbose){cat(limit, " API calls left\n")}
     while (limit==0){
         cr <- sample(creds, 1)
-        cat(cr, "\n")
+        if (verbose){cat(cr, "\n")}
         load(cr)
         Sys.sleep(1)
         # sleep for 5 minutes if limit rate is less than 100
@@ -50,7 +52,7 @@ getFriends <- function(screen_name, oauth_folder, cursor=-1){
             Sys.sleep(300)
         }
         limit <- getLimitFriends(my_oauth)
-        cat(limit, " API calls left\n")
+        if (verbose){cat(limit, " API calls left\n")}
     }
     ## url to call
     url <- "https://api.twitter.com/1.1/friends/ids.json"
@@ -68,7 +70,7 @@ getFriends <- function(screen_name, oauth_folder, cursor=-1){
         ## trying to parse JSON data
         json.data <- fromJSON(url.data, unexpected.escape = "skip")
         if (length(json.data$error)!=0){
-            cat(url.data)
+            if (verbose){cat(url.data)}
             stop("error! Last cursor: ", cursor)
         }
         ## adding new IDS
@@ -82,10 +84,10 @@ getFriends <- function(screen_name, oauth_folder, cursor=-1){
         cat(length(friends), "friends. Next cursor: ", cursor, "\n")
 
         ## changing oauth token if we hit the limit
-        cat(limit, " API calls left\n")
+        if (verbose){cat(limit, " API calls left\n")}
         while (limit==0){
             cr <- sample(creds, 1)
-            cat(cr, "\n")
+            if (verbose){cat(cr, "\n")}
             load(cr)
             Sys.sleep(1)
             # sleep for 5 minutes if limit rate is less than 100
@@ -94,7 +96,7 @@ getFriends <- function(screen_name, oauth_folder, cursor=-1){
                 Sys.sleep(300)
             }
             limit <- getLimitFriends(my_oauth)
-            cat(limit, " API calls left\n")
+            if (verbose){cat(limit, " API calls left\n")}
         }
     }
     return(friends)

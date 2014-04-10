@@ -115,6 +115,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     max_id <- json.data[[tweets]]$id_str
     cat(tweets, "tweets. Max id: ", max_id, "\n")
     max_id_old <- "none"
+    if (is.null(since_id)) {since_id <- 1}
 
     while (tweets < n & max_id != max_id_old & 
         as.numeric(max_id) > as.numeric(since_id)){

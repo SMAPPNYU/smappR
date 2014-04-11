@@ -151,14 +151,15 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
             cat(limit, " hits left\n")
         }
         ## trying to parse JSON data
-        json.data <- fromJSON(url.data, unexpected.escape = "skip")
+        ## json.data <- fromJSON(url.data, unexpected.escape = "skip")
+        json.data <- RJSONIO::fromJSON(url.data)
         if (length(json.data$error)!=0){
             cat(url.data)
             stop("error! Last cursor: ", cursor)
         }
         ## writing to disk
         conn <- file(filename, "a")
-        invisible(lapply(json.data, function(x) writeLines(toJSON(x), con=conn)))
+        invisible(lapply(json.data, function(x) writeLines(rjson::toJSON(x), con=conn)))
         close(conn)
         ## max_id
         tweets <- tweets + length(json.data)

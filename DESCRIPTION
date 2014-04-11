@@ -12,7 +12,8 @@ Depends:
     R2WinBUGS,
     tm,
     ROAuth,
-    rjson
+    rjson,
+    RJSONIO
 Recommends: ggplot2,
     scales
 License: GPL-2

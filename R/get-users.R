@@ -72,7 +72,7 @@ getUsers <- function(oauth_folder="~/credentials", screen_names=NULL,
     url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
     cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl")) 
     Sys.sleep(.5)
-    return(fromJSON(url.data))
+    return(RJSONIO::fromJSON(url.data))
 }
 
 
@@ -82,7 +82,7 @@ getLimitUsers <- function(my_oauth){
     params <- list(resources = "users,application")
     response <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
         cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl"))
-    return(unlist(fromJSON(response)$resources$users$`/users/lookup`[['remaining']]))
+    return(unlist(rjson::fromJSON(response)$resources$users$`/users/lookup`[['remaining']]))
 
 }
 

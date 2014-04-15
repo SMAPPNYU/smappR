@@ -27,9 +27,6 @@
 #' 
 #' @param password string, password corresponding to the given username.
 #'
-#' @param verbose logical, default is \code{TRUE}, which generates some output to the
-#' R console with information about the capturing process.
-#'
 #' @examples \dontrun{
 #'  
 #' ## An example of an authenticated request using the ROAuth package, 
@@ -62,7 +59,7 @@
 tweetsToMongo <- function(file.name=NULL, ns=NULL, host='localhost', username="", 
 	password="", verbose=TRUE)
 {
-	if (!is.null(ns)){require(rmongodb)}
+    require(rmongodb)
 	
 	## from json to list
     results.list <- readTweets(file.name, verbose=FALSE)
@@ -76,20 +73,14 @@ tweetsToMongo <- function(file.name=NULL, ns=NULL, host='localhost', username=""
 	mongo <- mongo.create(host=host, username=username, password=password, db=db)
 	if (mongo.get.err(mongo)!=0){ stop("Error in connection to MongoDB") }
 
-    ## loop over tweets
-    pb <- txtProgressBar(min=1,max=length(results.list), style=3) 
-    i <- 1
-    for (tweet in results.list){
-    	fields <- names(tweet)
-    	if ('text' %in% fields){
-    		tweet[['_id']] <- tweet[['id_str']]
-    		tweet[['timestamp']] <- format.twitter.date(tweet[['created_at']])
-    		tweet[['random_number']] <- runif(1, 0, 1)
-    		mongo.insert(mongo=mongo, ns=ns, tweet)
-    	}
-    	i <- i + 1
-    	setTxtProgressBar(pb, i)
-    }
+    ## dumping into MongoDB
+    tweets <- lapply(results.list, prepareForMongo)
+    todelete <- which(unlist(lapply(tweets, class))=="NULL")
+    if (length(todelete)>0){ tweets <- tweets[-todelete]}
+    mongo.insert.batch(mongo=mongo, ns=ns, tweets)
+
+    if (verbose){ message(length(tweets), " tweets saved in MongoDB")}
+
 }
 
 
@@ -108,16 +99,29 @@ readTweets <- function(tweets, verbose=TRUE){
     }
 
     results.list <- lapply(lines[nchar(lines)>0], function(x) 
-        tryCatch(RJSONIO::fromJSON(x), error=function(e) e))
+        tryCatch(rjson::fromJSON(x), error=function(e) e))
 
     ## removing lines that do not contain tweets or were not properly parsed
     errors <- which(unlist(lapply(results.list, length))<18)
     if (length(errors)>0){
         results.list <- results.list[-errors]
     }
-              
+
     # information message
     if (verbose==TRUE) cat(length(results.list), "tweets have been parsed.", "\n")
     return(results.list)
 }
+
+prepareForMongo <- function(tweet){
+    fields <- names(tweet)
+    if ('text' %in% fields){
+        tweet[['_id']] <- tweet[['id_str']]
+        tweet[['timestamp']] <- format.twitter.date(tweet[['created_at']])
+        tweet[['random_number']] <- runif(1, 0, 1)
+    }
+    tweet <- mongo.bson.from.list(tweet)
+    return(tweet)
+}
+
+
 

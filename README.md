@@ -39,7 +39,9 @@ The rest of the document offers "recipes" for the following situations:
 
 10 - [How can I start my own collection of tweets?](https://github.com/SMAPPNYU/smappR#8-how-can-i-start-my-own-collection-of-tweets)
 
-11 - [How can I collect public Facebook data?](https://github.com/SMAPPNYU/smappR#9-how-can-i-collect-public-facebook-data)
+11 - [How can I save tweets I collected on my own in the lab machine?](https://github.com/SMAPPNYU/smappR#)
+
+12 - [How can I collect public Facebook data?](https://github.com/SMAPPNYU/smappR#10-how-can-i-collect-public-facebook-data)
 
 ## A. Installing R packages
 
@@ -452,7 +454,19 @@ filterStream(file.name="geo_tweets.json", oauth=my_oauth,
     locations=c(-180,-90,180,90), tweets=100)
 ```
 
-## 11. How can I collect public Facebook data?
+## 11. How can I save tweets I collected on my own in the lab machine?
+
+```
+# Assume we want to save the geolocated tweets we just captured
+tweetsToMongo(file.name="geo_tweets.json", ns="tweets.geotweets",
+    host="HOST", username="USERNAME", password="PASSWORD")
+
+# this will dump the tweets onto the lab machine, adding the extra fields
+# necessary to get random samples, quick sampling by date, etc.
+```
+
+
+## 12. How can I collect public Facebook data?
 
 ```
 # loading library

@@ -13,3 +13,5 @@
 2014-03-11 - version 0.3.2:
     - added getList function
     - added query by user in mongoDB
+2014-04-15 - version 0.3.3:
+    - added function to dump tweets on MongoDB

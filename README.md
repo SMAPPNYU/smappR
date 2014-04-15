@@ -33,15 +33,15 @@ The rest of the document offers "recipes" for the following situations:
 
 7 - [How can I download profile information about multiple users and parse their location into geographic coordinates?](https://github.com/SMAPPNYU/smappR#7-how-can-i-download-profile-information-about-multiple-users-and-parse-their-location-into-geographic-coordinates)
 
-8 - [How can I estimate the ideology of a Twitter user?](https://github.com/SMAPPNYU/smappR#6-how-can-i-estimate-the-ideology-of-a-twitter-user)
+8 - [How can I estimate the ideology of a Twitter user?](https://github.com/SMAPPNYU/smappR#8-how-can-i-estimate-the-ideology-of-a-twitter-user)
 
-9 - [How can I visualize a network of retweets?](https://github.com/SMAPPNYU/smappR#7-how-can-i-visualize-a-network-of-retweets)
+9 - [How can I visualize a network of retweets?](https://github.com/SMAPPNYU/smappR#9-how-can-i-visualize-a-network-of-retweets)
 
-10 - [How can I start my own collection of tweets?](https://github.com/SMAPPNYU/smappR#8-how-can-i-start-my-own-collection-of-tweets)
+10 - [How can I start my own collection of tweets?](https://github.com/SMAPPNYU/smappR#10-how-can-i-start-my-own-collection-of-tweets)
 
-11 - [How can I save tweets I collected on my own in the lab machine?](https://github.com/SMAPPNYU/smappR#)
+11 - [How can I save tweets I collected on my own in the lab machine?](https://github.com/SMAPPNYU/smappR#11-how-can-i-save-tweets-i-collected-on-my-own-in-the-lab-machine)
 
-12 - [How can I collect public Facebook data?](https://github.com/SMAPPNYU/smappR#10-how-can-i-collect-public-facebook-data)
+12 - [How can I collect public Facebook data?](https://github.com/SMAPPNYU/smappR#12-how-can-i-collect-public-facebook-data)
 
 ## A. Installing R packages
 

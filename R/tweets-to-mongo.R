@@ -69,14 +69,16 @@ tweetsToMongo <- function(file.name=NULL, ns=NULL, host='localhost', username=""
  	coll <- strsplit(ns, "\\.")[[1]][2]
 	if (verbose==TRUE) { 
 		message("Storing tweets in collection '", coll, "' of database '", 
-			db, "' in MongoDB\n") }
+			db, "' in MongoDB") }
 	mongo <- mongo.create(host=host, username=username, password=password, db=db)
 	if (mongo.get.err(mongo)!=0){ stop("Error in connection to MongoDB") }
 
     ## dumping into MongoDB
+    if (verbose){ message("Preparing tweets for MongoDB")}
     tweets <- lapply(results.list, prepareForMongo)
     todelete <- which(unlist(lapply(tweets, class))=="NULL")
     if (length(todelete)>0){ tweets <- tweets[-todelete]}
+    if (verbose){ message("Uploading tweets to MongoDB")}
     if (length(tweets)<=1000){
         mongo.insert.batch(mongo=mongo, ns=ns, tweets)    
     }
@@ -85,7 +87,7 @@ tweetsToMongo <- function(file.name=NULL, ns=NULL, host='localhost', username=""
         sapply(indices,
             function(x)
             mongo.insert.batch(mongo=mongo, ns=ns, 
-                tweets=tweets[x:ifelse((x+999)>length(tweets), length(tweets), x+999)]))
+                tweets[x:ifelse((x+999)>length(tweets), length(tweets), x+999)]))
     }
     
     if (verbose){ message(length(tweets), " tweets saved in MongoDB")}

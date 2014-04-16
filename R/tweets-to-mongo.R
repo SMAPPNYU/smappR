@@ -77,8 +77,17 @@ tweetsToMongo <- function(file.name=NULL, ns=NULL, host='localhost', username=""
     tweets <- lapply(results.list, prepareForMongo)
     todelete <- which(unlist(lapply(tweets, class))=="NULL")
     if (length(todelete)>0){ tweets <- tweets[-todelete]}
-    mongo.insert.batch(mongo=mongo, ns=ns, tweets)
-
+    if (length(tweets)<=1000){
+        mongo.insert.batch(mongo=mongo, ns=ns, tweets)    
+    }
+    if (length(tweets)>1000){
+        indices <- seq(1, length(tweets), 1000)
+        sapply(indices,
+            function(x)
+            mongo.insert.batch(mongo=mongo, ns=ns, 
+                tweets=tweets[x:ifelse((x+999)>length(tweets), length(tweets), x+999)]))
+    }
+    
     if (verbose){ message(length(tweets), " tweets saved in MongoDB")}
 
 }

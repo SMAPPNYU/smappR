@@ -19,6 +19,9 @@
 #'
 #' @param cursor See \url{https://dev.twitter.com/docs/api/1.1/get/followers/ids}
 #'
+#' @param user_id user id of the Twitter user for which their friends will be
+#' downloaded
+#'
 #' @param verbose If \code{TRUE}, prints information about API calls on console
 #'
 #'
@@ -28,7 +31,7 @@
 #' }
 #'
 
-getFollowers <- function(screen_name, oauth_folder, cursor=-1, verbose=TRUE){
+getFollowers <- function(screen_name, oauth_folder, cursor=-1, user_id=NULL, verbose=TRUE){
 
     require(rjson); require(ROAuth)
 
@@ -61,7 +64,12 @@ getFollowers <- function(screen_name, oauth_folder, cursor=-1, verbose=TRUE){
     ## while there's more data to download...
     while (cursor!=0){
         ## making API call
-        params <- list(screen_name = screen_name, cursor = cursor)
+        if (!is.null(screen_name)){
+            params <- list(screen_name = screen_name, cursor = cursor)
+        }
+        if (!is.null(user_id)){
+            params <- list(user_id = user_id, cursor = cursor)
+        }
         url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
         cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl"))
         Sys.sleep(1)

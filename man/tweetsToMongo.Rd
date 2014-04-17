@@ -25,10 +25,6 @@ tweetsToMongo(file.name = NULL, ns = NULL, host = "localhost",
 
   \item{password}{string, password corresponding to the
   given username.}
-
-  \item{verbose}{logical, default is \code{TRUE}, which
-  generates some output to the R console with information
-  about the capturing process.}
 }
 \description{
 \code{tweetsToMongo} read tweets in JSON format (downloaded

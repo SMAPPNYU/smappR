@@ -31,7 +31,7 @@
 #' }
 #'
 
-getFollowers <- function(screen_name, oauth_folder, cursor=-1, user_id=NULL, verbose=TRUE){
+getFollowers <- function(screen_name=NULL, oauth_folder, cursor=-1, user_id=NULL, verbose=TRUE){
 
     require(rjson); require(ROAuth)
 

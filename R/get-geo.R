@@ -75,10 +75,8 @@ getGeo <- function(location, verbose=FALSE, rdstk="http://www.datasciencetoolkit
 
 getCoordinates <- function (address, rdstk) 
 {
-    api <- paste(rdstk, "/twofishes?query=", 
-        sep = "")
-    get.addy <- content(GET(paste(api, URLencode(address), sep = "")))
-    result <- fromJSON(get.addy)
+    api <- paste(rdstk, "/twofishes?query=", sep = "")
+    result <- content(GET(paste(api, URLencode(address), sep = "")))
     return(result)
 }
 
@@ -87,7 +85,7 @@ coordinates2politics <- function (latitude, longitude,
 {
     api <- paste(rdstk, "/coordinates2politics/", 
         sep = "")
-    result <- content(GET(paste(api, latitude, "%2c", longitude, sep = "")))
+    result <- rawToChar(GET(paste(api, latitude, "%2c", longitude, sep = ""))$content)
     if (nchar(result)>0){
         return(fromJSON(result))
     }

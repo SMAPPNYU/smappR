@@ -23,7 +23,7 @@
 #'
 
 getGeo <- function(location, verbose=FALSE, rdstk="http://www.datasciencetoolkit.org"){
-    require(RCurl); require(rjson)
+    require(httr); require(rjson)
     # empty list for results
     result <- list()
     ## check if location is set of coordinates, then scrape
@@ -73,23 +73,21 @@ getGeo <- function(location, verbose=FALSE, rdstk="http://www.datasciencetoolkit
     return(result)
 }
 
-getCoordinates <- function (address, session = getCurlHandle(), rdstk) 
+getCoordinates <- function (address, rdstk) 
 {
     api <- paste(rdstk, "/twofishes?query=", 
         sep = "")
-    get.addy <- getURL(paste(api, URLencode(address), sep = ""), 
-        curl = session)
+    get.addy <- content(GET(paste(api, URLencode(address), sep = "")))
     result <- fromJSON(get.addy)
     return(result)
 }
 
-coordinates2politics <- function (latitude, longitude, session = getCurlHandle(), 
+coordinates2politics <- function (latitude, longitude, 
     rdstk="http://www.datasciencetoolkit.org") 
 {
     api <- paste(rdstk, "/coordinates2politics/", 
         sep = "")
-    result <- getURL(paste(api, latitude, "%2c", longitude, sep = ""), 
-        curl = session)
+    result <- content(GET(paste(api, latitude, "%2c", longitude, sep = "")))
     if (nchar(result)>0){
         return(fromJSON(result))
     }

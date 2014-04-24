@@ -2,8 +2,8 @@
 \alias{getFriends}
 \title{Returns the list of user IDs a given Twitter user follows}
 \usage{
-getFriends(screen_name, oauth_folder, cursor = -1, user_id = NULL,
-  verbose = TRUE)
+getFriends(screen_name = NULL, oauth_folder, cursor = -1, user_id = NULL,
+  verbose = TRUE, sleep = 1)
 }
 \arguments{
   \item{screen_name}{user name of the Twitter user for
@@ -20,6 +20,9 @@ getFriends(screen_name, oauth_folder, cursor = -1, user_id = NULL,
 
   \item{verbose}{If \code{TRUE}, prints information about
   API calls on console}
+
+  \item{sleep}{Number of seconds to sleep between API
+  calls.}
 }
 \description{
 \code{getFriends} connects to the REST API of Twitter and

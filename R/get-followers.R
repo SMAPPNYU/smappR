@@ -24,6 +24,7 @@
 #'
 #' @param verbose If \code{TRUE}, prints information about API calls on console
 #'
+#' @param sleep Number of seconds to sleep between API calls.
 #'
 #' @examples \dontrun{
 #' ## Download list of followers of user "p_barbera"
@@ -31,7 +32,7 @@
 #' }
 #'
 
-getFollowers <- function(screen_name=NULL, oauth_folder, cursor=-1, user_id=NULL, verbose=TRUE){
+getFollowers <- function(screen_name=NULL, oauth_folder, cursor=-1, user_id=NULL, verbose=TRUE, sleep=1){
 
     require(rjson); require(ROAuth)
 
@@ -48,7 +49,7 @@ getFollowers <- function(screen_name=NULL, oauth_folder, cursor=-1, user_id=NULL
         cr <- sample(creds, 1)
         if (verbose){cat(cr, "\n")}
         load(cr)
-        Sys.sleep(1)
+        Sys.sleep(sleep)
         # sleep for 5 minutes if limit rate is less than 100
         rate.limit <- getLimitRate(my_oauth)
         if (rate.limit<100){
@@ -72,7 +73,7 @@ getFollowers <- function(screen_name=NULL, oauth_folder, cursor=-1, user_id=NULL
         }
         url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
         cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl"))
-        Sys.sleep(1)
+        Sys.sleep(sleep)
         ## one API call less
         limit <- limit - 1
         ## trying to parse JSON data
@@ -97,7 +98,7 @@ getFollowers <- function(screen_name=NULL, oauth_folder, cursor=-1, user_id=NULL
             cr <- sample(creds, 1)
             if (verbose){cat(cr, "\n")}
             load(cr)
-            Sys.sleep(1)
+            Sys.sleep(sleep)
             # sleep for 5 minutes if limit rate is less than 100
             rate.limit <- getLimitRate(my_oauth)
             if (rate.limit<100){

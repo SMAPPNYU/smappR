@@ -15,3 +15,5 @@
     - added query by user in mongoDB
 2014-04-15 - version 0.3.3:
     - added function to dump tweets on MongoDB
+2014-05-01 - version 0.3.4:
+    - query tweets from multiple users

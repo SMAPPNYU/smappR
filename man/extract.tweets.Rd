@@ -57,9 +57,10 @@ extract.tweets(set, string = NULL, size = 0, fields = c("created_at",
   a field in ISODate format called \code{timestamp}. All
   times are GMT.}
 
-  \item{user_id}{numeric ID of a user. If different form
-  \code{NULL}, will return only tweets sent by that Twitter
-  user (if there are any in the collection)}
+  \item{user_id}{vector of numeric IDs for users. If
+  different form \code{NULL}, will return only tweets sent
+  by that set of Twitter users (if there are any in the
+  collection)}
 
   \item{screen_name}{screen name of a user. If different
   form \code{NULL}, will return only tweets sent by that

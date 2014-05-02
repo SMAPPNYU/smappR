@@ -51,8 +51,8 @@
 #' consider only tweets after that date. Note that using this field requires that
 #' the tweets have a field in ISODate format called \code{timestamp}. All times are GMT.
 #'
-#' @param user_id numeric ID of a user. If different form \code{NULL}, will return
-#' only tweets sent by that Twitter user (if there are any in the collection)
+#' @param user_id vector of numeric IDs for users. If different form \code{NULL}, will return
+#' only tweets sent by that set of Twitter users (if there are any in the collection)
 #'
 #' @param screen_name screen name of a user. If different form \code{NULL}, will return
 #' only tweets sent by that Twitter user (if there are any in the collection)
@@ -108,6 +108,16 @@ extract.tweets <- function(set, string=NULL, size=0,
     fields.arg <- fields
     query <- list()
     
+    ## querying by date
+    if (!is.null(from)){
+        from.txt <- as.POSIXct(from, "%Y-%m-%d %H:%M:%S")
+        query <- c(query, list(timestamp=list('$gte'=from.txt)))
+    }
+    if (!is.null(to)){
+        to.txt <- as.POSIXct(to, "%Y-%m-%d %H:%M:%S")
+        query <- c(query, list(timestamp=list('$lt'=to.txt)))
+    }
+
     ## querying by string using regex
     if (!is.null(string)){
         if (length(string)>1) { string <- paste(string, collapse='|') }
@@ -118,14 +128,14 @@ extract.tweets <- function(set, string=NULL, size=0,
         if (length(user_id)==1) { query <- c(query, 
             list(user.id_str=as.character(user_id)))}
         if (length(user_id)>1){
-            stop("Error! You can only query tweets sent from one user")
+            query <- c(query, list(user.id_str=list('$in'=as.character(user_id))))
         }
     }
     if (!is.null(screen_name)){
         if (length(screen_name)==1) { query <- c(query, 
             list(user.screen_name=list('$regex'=paste0('^', screen_name), '$options'='i')))}
         if (length(screen_name)>1){
-            stop("Error! You can only query tweets sent from one user")
+            stop("Error! You can only query tweets sent from one user with screen_name. User user_id instead.")
         }
     }
     
@@ -160,15 +170,6 @@ extract.tweets <- function(set, string=NULL, size=0,
         }
     }
 
-    ## querying by date
-    if (!is.null(from)){
-        from.txt <- as.POSIXct(from, "%Y-%m-%d %H:%M:%S")
-        query <- c(query, list(timestamp=list('$gte'=from.txt)))
-    }
-    if (!is.null(to)){
-        to.txt <- as.POSIXct(to, "%Y-%m-%d %H:%M:%S")
-        query <- c(query, list(timestamp=list('$lt'=to.txt)))
-    }
 
     ## all tweets if no condition is specified
     if (length(query)==0) query <- mongo.bson.empty()

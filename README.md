@@ -303,7 +303,7 @@ wordcloud(words=names(wordFreq), freq=wordFreq, max.words=50,
 
 # for more info, again:
 ?getTimeline
-?format.twitter.date
+?formatTwDate
 ?extract.recent.tweets
 ```
 

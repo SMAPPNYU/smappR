@@ -281,7 +281,7 @@ plot.tweets <- function(tweets, breaks='minutes'){
     }
     require(ggplot2)
     dates <- tweets$created_at
-    dates <- format.twitter.date(dates)
+    dates <- formatTwDate(dates)
     if (breaks=='minutes'){
         mins <- substr(as.character(dates), 1, 16)
         n.tweets <- table(mins)

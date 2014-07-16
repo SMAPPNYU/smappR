@@ -127,7 +127,7 @@ prepareForMongo <- function(tweet){
     fields <- names(tweet)
     if ('text' %in% fields){
         tweet[['_id']] <- tweet[['id_str']]
-        tweet[['timestamp']] <- format.twitter.date(tweet[['created_at']])
+        tweet[['timestamp']] <- formatTwDate(tweet[['created_at']])
         tweet[['random_number']] <- runif(1, 0, 1)
     }
     tweet <- mongo.bson.from.list(tweet)

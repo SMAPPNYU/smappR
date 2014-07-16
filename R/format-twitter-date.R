@@ -1,4 +1,4 @@
-#' @rdname format.twitter.date
+#' @rdname formatTwDate
 #' @export
 #'
 #' @title 
@@ -21,14 +21,14 @@
 #'  tweets <- extract.tweets(set, string="occupygezi", fields="created_at")
 #'
 #' ## convert dates to R format
-#'  dates <- format.twitter.date(tweets$created_at, format="date")
+#'  dates <- formatTwDate(tweets$created_at, format="date")
 #'
 #' ## see number of tweets per day
 #'  table(dates)
 #' }
 #'
 
-format.twitter.date <- function(datestring, format="datetime"){
+formatTwDate <- function(datestring, format="datetime"){
     if (format=="datetime"){
         date <- as.POSIXct(datestring, format="%a %b %d %H:%M:%S %z %Y")
     }

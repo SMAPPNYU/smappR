@@ -18,7 +18,7 @@
 #' }
 #'
 
-format.facebook.date <- function(datestring, format="datetime") {
+formatFbDate <- function(datestring, format="datetime") {
     if (format=="datetime"){
         date <- as.POSIXct(datestring, format = "%Y-%m-%dT%H:%M:%S+0000", tz = "GMT")    
     }

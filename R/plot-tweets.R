@@ -42,7 +42,7 @@ plot.tweets <- function(tweets, breaks='hours', return_plot=FALSE, missing_minut
     }
     require(ggplot2); require(scales)
     dates <- tweets$created_at
-    dates <- format.twitter.date(dates) +60*60*hours
+    dates <- formatTwDate(dates) +60*60*hours
     if (breaks=='minutes'){
         mins <- substr(as.character(dates), 1, 16)
         n.tweets <- table(mins)

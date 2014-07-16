@@ -17,3 +17,6 @@
     - added function to dump tweets on MongoDB
 2014-05-01 - version 0.3.4:
     - query tweets from multiple users
+2014-07-15 - version 0.3.5:
+    - fixed errors in function that formats date
+    - added getStatuses function for bulk download of tweets

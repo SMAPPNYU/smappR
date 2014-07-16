@@ -1,8 +1,8 @@
-\name{format.facebook.date}
-\alias{format.facebook.date}
+\name{formatFbDate}
+\alias{formatFbDate}
 \title{Converts from Facebook date format to R date format}
 \usage{
-\method{format}{facebook.date}(datestring, format = "datetime")
+formatFbDate(datestring, format = "datetime")
 }
 \arguments{
   \item{datestring}{Date string in Facebook format}

@@ -14,6 +14,10 @@
 #'
 #' @param location location string for which information is desired
 #'
+#' @param rdstk URL for data science toolkit
+#'
+#' @param twofishes URL for twofishes geocoder
+#'
 #' @param verbose If TRUE, provides additional information on console.
 #'
 #' @examples \dontrun{
@@ -22,7 +26,8 @@
 #' }
 #'
 
-getGeo <- function(location, verbose=FALSE, rdstk="http://www.datasciencetoolkit.org"){
+getGeo <- function(location, verbose=FALSE, rdstk="http://www.datasciencetoolkit.org",
+    twofishes="http://demo.twofishes.net/?autocomplete=true&maxInterpretations=1&"){
     require(httr); require(rjson)
     # empty list for results
     result <- list()
@@ -53,7 +58,7 @@ getGeo <- function(location, verbose=FALSE, rdstk="http://www.datasciencetoolkit
     }
     # if not, try to extract coordinates from location
     if (!coord){
-        geo <- getCoordinates(location, rdstk=rdstk)    
+        geo <- getCoordinates(location, twofishes=twofishes)    
         if (length(geo$interpretations)>0){
             result[['lat']] <- geo$interpretations[[1]]$feature$geometry$center[[1]]
             result[['lng']] <- geo$interpretations[[1]]$feature$geometry$center[[2]]
@@ -73,9 +78,9 @@ getGeo <- function(location, verbose=FALSE, rdstk="http://www.datasciencetoolkit
     return(result)
 }
 
-getCoordinates <- function (address, rdstk) 
+getCoordinates <- function (address, twofishes) 
 {
-    api <- paste(rdstk, "/twofishes?query=", sep = "")
+    api <- paste(twofishes, "query=", sep = "")
     result <- content(GET(paste(api, URLencode(address), sep = "")))
     return(result)
 }

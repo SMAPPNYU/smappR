@@ -20,3 +20,5 @@
 2014-07-15 - version 0.3.5:
     - fixed errors in function that formats date
     - added getStatuses function for bulk download of tweets
+2014-08-14 - version 0.3.6:
+    - new link to twofishes geocoder

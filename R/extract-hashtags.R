@@ -1,6 +1,5 @@
 #' @rdname extract.hashtags
 #' @export
-#' @export summary hashtags
 #'
 #' @title 
 #' Connect to Mongo database and extract hashtags from each tweet.

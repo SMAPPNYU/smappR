@@ -1,6 +1,5 @@
 #' @rdname extract.retweets
 #' @export
-#' @export summary retweets
 #'
 #' @title 
 #' Connect to Mongo database and extract retweets that match 

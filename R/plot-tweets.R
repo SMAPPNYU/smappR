@@ -1,6 +1,5 @@
 #' @rdname plot.tweets
 #' @export
-#' @export plot tweets
 #'
 #' @title 
 #' Plots number of tweets by hour or minute

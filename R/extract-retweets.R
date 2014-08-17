@@ -109,6 +109,7 @@ extract.retweets <- function(set, string=NULL, min=10, from=NULL, to=NULL, verbo
     return(tweets)
 }
 
+#' @export
 ## summary of retweets
 summary.retweets <- function(retweets, n=10){
     data.frame(cbind(screen_name = lapply(lapply(retweets[1:n], '[[', "user"), '[[', "screen_name"),

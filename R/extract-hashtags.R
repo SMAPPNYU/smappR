@@ -113,6 +113,7 @@ extract.hashtags <- function(set, text=NULL, string=NULL, from=NULL, to=NULL, ve
     }
 }
 
+#' @export
 ## summary of retweets
 summary.hashtags <- function(hashtags, n=10){
     head(hashtags, n=n)

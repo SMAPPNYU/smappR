@@ -65,9 +65,8 @@ The following block of code will install all packages that you need in order to 
 
 We will use this token to connect to the Twitter API and download data. Follow these steps:
 
- - Go to dev.twitter.com and sign in
- - Click on your username (top-right of screen) and then on "My applications"
- - Click on "Create a new application"
+ - Go to apps.twitter.com/ and sign in
+ - Click on "Create New App"
  - Fill name, description, and website (it can be anything, even google.com)
  - Leave "Callback URL" empty
  - Agree to user conditions and enter captcha.

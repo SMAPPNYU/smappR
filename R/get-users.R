@@ -71,6 +71,7 @@ getUsers <- function(oauth_folder="~/credentials", screen_names=NULL,
     
     url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
     cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl")) 
+    url.data <- gsub('\"\\\\"', '\"\"', url.data)
     Sys.sleep(.5)
     return(RJSONIO::fromJSON(url.data))
 }

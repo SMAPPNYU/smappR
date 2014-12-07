@@ -71,9 +71,16 @@ getUsers <- function(oauth_folder="~/credentials", screen_names=NULL,
     
     url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
     cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl")) 
-    url.data <- gsub('\"\\\\"', '\"\"', url.data)
+    error <- tryCatch(json <- RJSONIO::fromJSON(url.data),
+        error = function(e) e)
+    if (inherits(error, 'error')){
+#        url.data <- gsub('\"\\\\"', '\"\"', url.data)
+        url.data <- iconv(url.data, 'latin1', 'ASCII', sub="")
+        url.data <- gsub('\"source.*</a>\",', "", url.data)
+        json <- RJSONIO::fromJSON(url.data)
+    }
     Sys.sleep(.5)
-    return(RJSONIO::fromJSON(url.data))
+    return(json)
 }
 
 
@@ -86,9 +93,4 @@ getLimitUsers <- function(my_oauth){
     return(unlist(rjson::fromJSON(response)$resources$users$`/users/lookup`[['remaining']]))
 
 }
-
-
-
-
-
 

@@ -74,7 +74,7 @@ getUsers <- function(oauth_folder="~/credentials", screen_names=NULL,
     error <- tryCatch(json <- RJSONIO::fromJSON(url.data),
         error = function(e) e)
     if (inherits(error, 'error')){
-#        url.data <- gsub('\"\\\\"', '\"\"', url.data)
+        url.data <- gsub('\"\\\\"', '\"\"', url.data)
         url.data <- iconv(url.data, 'latin1', 'ASCII', sub="")
         url.data <- gsub('\"source.*</a>\",', "", url.data)
         json <- RJSONIO::fromJSON(url.data)

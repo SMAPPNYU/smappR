@@ -110,11 +110,11 @@ extract.tweets <- function(set, string=NULL, size=0,
     
     ## querying by date
     if (!is.null(from)){
-        from.txt <- as.POSIXct(from, "%Y-%m-%d %H:%M:%S")
+        from.txt <- as.POSIXct(from, "%Y-%m-%d %H:%M:%S", tz="")
         query <- c(query, list(timestamp=list('$gte'=from.txt)))
     }
     if (!is.null(to)){
-        to.txt <- as.POSIXct(to, "%Y-%m-%d %H:%M:%S")
+        to.txt <- as.POSIXct(to, "%Y-%m-%d %H:%M:%S", tz="")
         query <- c(query, list(timestamp=list('$lt'=to.txt)))
     }
 

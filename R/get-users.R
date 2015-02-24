@@ -22,6 +22,8 @@
 #'
 #' @param oauth_folder folder where OAuth tokens are stored.
 #'
+#' @param verbose shows additional ouput about token usage in console
+#'
 #'
 #' @examples \dontrun{
 #' ## Download user data for user "p_barbera"
@@ -30,22 +32,22 @@
 #'
 
 getUsers <- function(oauth_folder="~/credentials", screen_names=NULL, 
-    id=NULL, include_entities="true"){
+    id=NULL, include_entities="true", verbose=FALSE){
 
-    require(rjson); require(ROAuth)
+    require(ROAuth); require(httr); require(jsonlite)
 
     ## create list of credentials
     creds <- list.files(oauth_folder, full.names=T)
     ## open a random credential
     cr <- sample(creds, 1)
-    cat(cr, "\n")
+    if (verbose) cat(cr, "\n")
     load(cr)
     ## while rate limit is 0, open a new one
     limit <- getLimitUsers(my_oauth)
     cat(limit, " hits left\n")
     while (limit==0){
         cr <- sample(creds, 1)
-        cat(cr, "\n")
+        if (verbose) cat(cr, "\n")
         load(cr)
         Sys.sleep(1)
         # sleep for 5 minutes if limit rate is less than 100
@@ -54,7 +56,7 @@ getUsers <- function(oauth_folder="~/credentials", screen_names=NULL,
             Sys.sleep(300)
         }
         limit <- getLimitUsers(my_oauth)
-        cat(limit, " hits left\n")
+        if (verbose) cat(limit, " hits left\n")
     }
     ## url to call
     url <- "https://api.twitter.com/1.1/users/lookup.json"
@@ -69,18 +71,15 @@ getUsers <- function(oauth_folder="~/credentials", screen_names=NULL,
         params <- list(user_id=ids, include_entities=include_entities)   
     }
     
-    url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
-    cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl")) 
-    error <- tryCatch(json <- RJSONIO::fromJSON(url.data),
-        error = function(e) e)
-    if (inherits(error, 'error')){
-        url.data <- gsub('\"\\\\"', '\"\"', url.data)
-        url.data <- iconv(url.data, 'latin1', 'ASCII', sub="")
-        url.data <- gsub('\"source.*</a>\",', "", url.data)
-        json <- RJSONIO::fromJSON(url.data)
-    }
-    Sys.sleep(.5)
-    return(json)
+    options("httr_oauth_cache"=FALSE)
+    app <- httr::oauth_app("twitter", key = my_oauth$consumerKey, 
+        secret = my_oauth$consumerSecret)
+    sig <- httr::sign_oauth1.0(app, token=my_oauth$oauthKey, 
+        token_secret=my_oauth$oauthSecret)
+    query <- lapply(params, function(x) URLencode(as.character(x)))
+    url.data <- httr::GET(url, query=query, config(token=sig[["token"]]))
+    json.data <- httr::content(url.data)
+    return(json.data)
 }
 
 

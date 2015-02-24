@@ -44,7 +44,7 @@ getUsers <- function(oauth_folder="~/credentials", screen_names=NULL,
     load(cr)
     ## while rate limit is 0, open a new one
     limit <- getLimitUsers(my_oauth)
-    cat(limit, " hits left\n")
+    if (verbose) cat(limit, " hits left\n")
     while (limit==0){
         cr <- sample(creds, 1)
         if (verbose) cat(cr, "\n")

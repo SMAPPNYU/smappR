@@ -33,6 +33,9 @@
 #' @param sleep numeric, number of seconds between API calls. Higher number
 #' will increase reliability of API calls; lower number will increase speed.
 #'
+#' @param verbose If TRUE, provides additional output in console about API
+#' rate limits
+#'
 #' @examples \dontrun{
 #' ## Download recent tweets by user "p_barbera"
 #'  friends <- getTimeline(screen_name="p_barbera", oauth_folder="oauth")
@@ -40,22 +43,22 @@
 #'
 
 getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_name=NULL, 
-    id=NULL, since_id=NULL, trim_user="true", sleep=.5){
+    id=NULL, since_id=NULL, trim_user="true", sleep=.5, verbose=FALSE){
 
-    require(rjson); require(ROAuth)
+    require(rjson); require(ROAuth); require(httr); require(jsonlite)
 
     ## create list of credentials
     creds <- list.files(oauth_folder, full.names=T)
     ## open a random credential
     cr <- sample(creds, 1)
-    cat(cr, "\n")
+    if (verbose) cat(cr, "\n")
     load(cr)
     ## while rate limit is 0, open a new one
     limit <- getLimitTimeline(my_oauth)
-    cat(limit, " hits left\n")
+    if (verbose) cat(limit, " hits left\n")
     while (limit==0){
         cr <- sample(creds, 1)
-        cat(cr, "\n")
+        if (verbose) cat(cr, "\n")
         load(cr)
         Sys.sleep(sleep)
         # sleep for 5 minutes if limit rate is less than 100
@@ -64,7 +67,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
             Sys.sleep(300)
         }
         limit <- getLimitTimeline(my_oauth)
-        cat(limit, " hits left\n")
+        if (verbose) cat(limit, " hits left\n")
     }
     ## url to call
     url <- "https://api.twitter.com/1.1/statuses/user_timeline.json"
@@ -79,17 +82,25 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     if (!is.null(since_id)){
         params[["since_id"]] <- since_id
     }
+    query <- lapply(params, function(x) URLencode(as.character(x)))
     
-    url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
-    cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl")) 
+    # preparing OAuth token for httr
+    options("httr_oauth_cache"=FALSE)
+    app <- httr::oauth_app("twitter", key = my_oauth$consumerKey, 
+        secret = my_oauth$consumerSecret)
+    sig <- httr::sign_oauth1.0(app, token=my_oauth$oauthKey, 
+        token_secret=my_oauth$oauthSecret)
+
+    # first query
+    url.data <- httr::GET(url, query=query, config(token=sig[["token"]]))
     Sys.sleep(sleep)
     ## one API call less
     limit <- limit - 1
     ## changing oauth token if we hit the limit
-    cat(limit, " hits left\n")
+    if (verbose) cat(limit, " hits left\n")
     while (limit==0){
         cr <- sample(creds, 1)
-        cat(cr, "\n")
+        if (verbose) cat(cr, "\n")
         load(cr)
         Sys.sleep(sleep)
         # sleep for 5 minutes if limit rate is less than 100
@@ -98,18 +109,18 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
             Sys.sleep(300)
         }
         limit <- getLimitTimeline(my_oauth)
-        cat(limit, " hits left\n")
+        if (verbose) cat(limit, " hits left\n")
     }
     ## trying to parse JSON data
     ## json.data <- fromJSON(url.data, unexpected.escape = "skip")
-    json.data <- RJSONIO::fromJSON(url.data)
+    json.data <- httr::content(url.data)
     if (length(json.data$error)!=0){
         cat(url.data)
         stop("error! Last cursor: ", cursor)
     }
     ## writing to disk
     conn <- file(filename, "a")
-    invisible(lapply(json.data, function(x) writeLines(rjson::toJSON(x), con=conn)))
+    invisible(lapply(json.data, function(x) writeLines(jsonlite::toJSON(x, null="null"), con=conn)))
     close(conn)
     ## max_id
     tweets <- length(json.data)
@@ -131,8 +142,8 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
         if (!is.null(since_id)){
             params[['since_id']] <- since_id
         }
-        url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
-        cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl")) 
+        query <- lapply(params, function(x) URLencode(as.character(x)))
+        url.data <- httr::GET(url, query=query, config(token=sig[["token"]]))
         Sys.sleep(sleep)
         ## one API call less
         limit <- limit - 1
@@ -153,14 +164,14 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
         }
         ## trying to parse JSON data
         ## json.data <- fromJSON(url.data, unexpected.escape = "skip")
-        json.data <- RJSONIO::fromJSON(url.data)
+        json.data <- httr::content(url.data)
         if (length(json.data$error)!=0){
             cat(url.data)
             stop("error! Last cursor: ", cursor)
         }
         ## writing to disk
         conn <- file(filename, "a")
-        invisible(lapply(json.data, function(x) writeLines(rjson::toJSON(x), con=conn)))
+        invisible(lapply(json.data, function(x) writeLines(jsonlite::toJSON(x, null="null"), con=conn)))
         close(conn)
         ## max_id
         tweets <- tweets + length(json.data)

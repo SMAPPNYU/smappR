@@ -120,7 +120,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     }
     ## writing to disk
     conn <- file(filename, "a")
-    invisible(lapply(json.data, function(x) writeLines(jsonlite::toJSON(x, null="null"), con=conn)))
+    ret <- lapply(json.data, function(x) writeLines(jsonlite::toJSON(x, null="null"), con=conn))
     close(conn)
     ## max_id
     tweets <- length(json.data)
@@ -171,7 +171,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
         }
         ## writing to disk
         conn <- file(filename, "a")
-        invisible(lapply(json.data, function(x) writeLines(jsonlite::toJSON(x, null="null"), con=conn)))
+        ret <- lapply(json.data, function(x) writeLines(jsonlite::toJSON(x, null="null"), con=conn))
         close(conn)
         ## max_id
         tweets <- tweets + length(json.data)

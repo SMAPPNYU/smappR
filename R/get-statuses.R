@@ -98,7 +98,7 @@ getLimitRate <- function(my_oauth){
     params <- list(resources = "followers,application")
     response <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
         cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl"))
-    return(unlist(fromJSON(response)$resources$application$`/application/rate_limit_status`[['remaining']]))
+    return(unlist(rjson::fromJSON(response)$resources$application$`/application/rate_limit_status`[['remaining']]))
 }
 
 

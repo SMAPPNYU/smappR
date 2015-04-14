@@ -77,7 +77,7 @@ getFriends <- function(screen_name=NULL, oauth_folder, cursor=-1, user_id=NULL, 
         ## one API call less
         limit <- limit - 1
         ## trying to parse JSON data
-        json.data <- fromJSON(url.data, unexpected.escape = "skip")
+        json.data <- rjson::fromJSON(url.data, unexpected.escape = "skip")
         if (length(json.data$error)!=0){
             if (verbose){cat(url.data)}
             stop("error! Last cursor: ", cursor)

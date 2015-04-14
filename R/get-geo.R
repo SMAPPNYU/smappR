@@ -92,7 +92,7 @@ coordinates2politics <- function (latitude, longitude,
         sep = "")
     result <- rawToChar(GET(paste(api, latitude, "%2c", longitude, sep = ""))$content)
     if (nchar(result)>0){
-        return(fromJSON(result))
+        return(rjson::fromJSON(result))
     }
     if (nchar(result==0)){
         return(NULL)

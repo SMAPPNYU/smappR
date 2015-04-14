@@ -68,7 +68,7 @@ getList <- function(list_name, screen_name, oauth_folder, cursor=-1){
         ## one API call less
         limit <- limit - 1
         ## trying to parse JSON data
-        json.data <- fromJSON(url.data, unexpected.escape = "skip")
+        json.data <- rjson::fromJSON(url.data, unexpected.escape = "skip")
         if (length(json.data$error)!=0){
             cat(url.data)
             stop("error! Last cursor: ", cursor)
@@ -110,7 +110,7 @@ getLimitList <- function(my_oauth){
     params <- list(resources = "lists,application")
     response <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
         cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl"))
-    return(unlist(fromJSON(response)$resources$lists$`/lists/members`['remaining']))
+    return(unlist(rjson::fromJSON(response)$resources$lists$`/lists/members`['remaining']))
 }
 
 

@@ -139,8 +139,8 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
         if (!is.null(id)){
             params <- list(id=id, count=200, max_id=max_id, trim_user=trim_user)
         }
-        if (!is.null(since_id)){
-            params[['since_id']] <- since_id
+        if (!is.null(since_id) && since_id != 1 ){
+           params[['since_id']] <- since_id
         }
         query <- lapply(params, function(x) URLencode(as.character(x)))
         url.data <- httr::GET(url, query=query, config(token=sig[["token"]]))

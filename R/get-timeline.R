@@ -6,7 +6,8 @@
 #'
 #' @description
 #' \code{getTimeline} connects to the REST API of Twitter and returns up to
-#' 3,200 recent tweets sent by these user.
+#' 3,200 recent tweets sent by these user. If the total number of tweets sent
+#' by this user is less than 3,200 tweets, it will return all tweets.
 #'
 #' @author
 #' Pablo Barbera \email{pablo.barbera@@nyu.edu}

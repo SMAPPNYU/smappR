@@ -44,7 +44,7 @@ getFollowers <- function(screen_name=NULL, oauth_folder, cursor=-1, user_id=NULL
     load(cr)
     ## while rate limit is 0, open a new one
     limit <- getLimitFollowers(my_oauth)
-    if (verbose) {message(limit, " API calls left\n")}
+    if (verbose) {message(limit, " API calls left")}
     while (limit==0){
         cr <- sample(creds, 1)
         if (verbose){message(cr, "\n")}
@@ -56,7 +56,7 @@ getFollowers <- function(screen_name=NULL, oauth_folder, cursor=-1, user_id=NULL
             Sys.sleep(300)
         }
         limit <- getLimitFollowers(my_oauth)
-        if (verbose){message(limit, " API calls left\n")}
+        if (verbose){message(limit, " API calls left")}
     }
     ## url to call
     url <- "https://api.twitter.com/1.1/followers/ids.json"
@@ -90,10 +90,10 @@ getFollowers <- function(screen_name=NULL, oauth_folder, cursor=-1, user_id=NULL
         ## next cursor
         cursor <- json.data$next_cursor_str
         ## giving info
-        message(length(followers), " followers. Next cursor: ", cursor, "\n")
+        message(length(followers), " followers. Next cursor: ", cursor)
 
         ## changing oauth token if we hit the limit
-        if (verbose){message(limit, " API calls left\n")}
+        if (verbose){message(limit, " API calls left")}
         while (limit==0){
             cr <- sample(creds, 1)
             if (verbose){message(cr, "\n")}
@@ -105,7 +105,7 @@ getFollowers <- function(screen_name=NULL, oauth_folder, cursor=-1, user_id=NULL
                 Sys.sleep(300)
             }
             limit <- getLimitFollowers(my_oauth)
-            if (verbose){message(limit, " API calls left\n")}
+            if (verbose){message(limit, " API calls left")}
         }
     }
     return(followers)

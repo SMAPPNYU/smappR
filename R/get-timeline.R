@@ -56,7 +56,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     load(cr)
     ## while rate limit is 0, open a new one
     limit <- getLimitTimeline(my_oauth)
-    if (verbose) message(limit, " hits left\n")
+    if (verbose) message(limit, " hits left")
     while (limit==0){
         cr <- sample(creds, 1)
         if (verbose) message(cr, "\n")
@@ -68,7 +68,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
             Sys.sleep(300)
         }
         limit <- getLimitTimeline(my_oauth)
-        if (verbose) message(limit, " hits left\n")
+        if (verbose) message(limit, " hits left")
     }
     ## url to call
     url <- "https://api.twitter.com/1.1/statuses/user_timeline.json"
@@ -99,7 +99,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     ## one API call less
     limit <- limit - 1
     ## changing oauth token if we hit the limit
-    if (verbose) message(limit, " hits left\n")
+    if (verbose) message(limit, " hits left")
     while (limit==0){
         cr <- sample(creds, 1)
         if (verbose) message(cr, "\n")
@@ -111,7 +111,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
             Sys.sleep(300)
         }
         limit <- getLimitTimeline(my_oauth)
-        if (verbose) message(limit, " hits left\n")
+        if (verbose) message(limit, " hits left")
     }
     ## trying to parse JSON data
     ## json.data <- fromJSON(url.data, unexpected.escape = "skip")
@@ -127,7 +127,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     ## max_id
     tweets <- length(json.data)
     max_id <- json.data[[tweets]]$id_str
-    message(tweets, " tweets. Max id: ", max_id, "\n")
+    message(tweets, " tweets. Max id: ", max_id)
     max_id_old <- "none"
     if (is.null(since_id)) {since_id <- 1}
 
@@ -150,7 +150,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
         ## one API call less
         limit <- limit - 1
         ## changing oauth token if we hit the limit
-        message(limit, " hits left\n")
+        message(limit, " hits left")
         while (limit==0){
             cr <- sample(creds, 1)
             message(cr, "\n")
@@ -162,7 +162,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
                 Sys.sleep(300)
             }
             limit <- getLimitTimeline(my_oauth)
-            message(limit, " hits left\n")
+            message(limit, " hits left")
         }
         ## trying to parse JSON data
         ## json.data <- fromJSON(url.data, unexpected.escape = "skip")
@@ -178,7 +178,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
         ## max_id
         tweets <- tweets + length(json.data)
         max_id <- json.data[[length(json.data)]]$id_str
-        message(tweets, " tweets. Max id: ", max_id, "\n")
+        message(tweets, " tweets. Max id: ", max_id)
     }
 }
 

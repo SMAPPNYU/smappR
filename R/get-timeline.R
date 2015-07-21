@@ -52,14 +52,14 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     creds <- list.files(oauth_folder, full.names=T)
     ## open a random credential
     cr <- sample(creds, 1)
-    if (verbose) cat(cr, "\n")
+    if (verbose) message(cr, "\n")
     load(cr)
     ## while rate limit is 0, open a new one
     limit <- getLimitTimeline(my_oauth)
-    if (verbose) cat(limit, " hits left\n")
+    if (verbose) message(limit, " hits left\n")
     while (limit==0){
         cr <- sample(creds, 1)
-        if (verbose) cat(cr, "\n")
+        if (verbose) message(cr, "\n")
         load(cr)
         Sys.sleep(sleep)
         # sleep for 5 minutes if limit rate is less than 100
@@ -68,7 +68,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
             Sys.sleep(300)
         }
         limit <- getLimitTimeline(my_oauth)
-        if (verbose) cat(limit, " hits left\n")
+        if (verbose) message(limit, " hits left\n")
     }
     ## url to call
     url <- "https://api.twitter.com/1.1/statuses/user_timeline.json"
@@ -89,19 +89,20 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     options("httr_oauth_cache"=FALSE)
     app <- httr::oauth_app("twitter", key = my_oauth$consumerKey, 
         secret = my_oauth$consumerSecret)
-    sig <- httr::sign_oauth1.0(app, token=my_oauth$oauthKey, 
-        token_secret=my_oauth$oauthSecret)
+    credentials <- list(oauth_token = my_oauth$oauthKey, oauth_token_secret = my_oauth$oauthSecret)
+    twitter_token <- httr::Token1.0$new(endpoint = NULL, params = list(as_header = TRUE), 
+        app = app, credentials = credentials)
 
     # first query
-    url.data <- httr::GET(url, query=query, config(token=sig[["token"]]))
+    url.data <- httr::GET(url, query = query, httr::config(token = twitter_token))
     Sys.sleep(sleep)
     ## one API call less
     limit <- limit - 1
     ## changing oauth token if we hit the limit
-    if (verbose) cat(limit, " hits left\n")
+    if (verbose) message(limit, " hits left\n")
     while (limit==0){
         cr <- sample(creds, 1)
-        if (verbose) cat(cr, "\n")
+        if (verbose) message(cr, "\n")
         load(cr)
         Sys.sleep(sleep)
         # sleep for 5 minutes if limit rate is less than 100
@@ -110,13 +111,13 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
             Sys.sleep(300)
         }
         limit <- getLimitTimeline(my_oauth)
-        if (verbose) cat(limit, " hits left\n")
+        if (verbose) message(limit, " hits left\n")
     }
     ## trying to parse JSON data
     ## json.data <- fromJSON(url.data, unexpected.escape = "skip")
     json.data <- httr::content(url.data)
     if (length(json.data$error)!=0){
-        cat(url.data)
+        message(url.data)
         stop("error! Last cursor: ", cursor)
     }
     ## writing to disk
@@ -126,7 +127,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     ## max_id
     tweets <- length(json.data)
     max_id <- json.data[[tweets]]$id_str
-    cat(tweets, "tweets. Max id: ", max_id, "\n")
+    message(tweets, "tweets. Max id: ", max_id, "\n")
     max_id_old <- "none"
     if (is.null(since_id)) {since_id <- 1}
 
@@ -144,15 +145,15 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
            params[['since_id']] <- since_id
         }
         query <- lapply(params, function(x) URLencode(as.character(x)))
-        url.data <- httr::GET(url, query=query, config(token=sig[["token"]]))
+        url.data <- httr::GET(url, query = query, httr::config(token = twitter_token))
         Sys.sleep(sleep)
         ## one API call less
         limit <- limit - 1
         ## changing oauth token if we hit the limit
-        cat(limit, " hits left\n")
+        message(limit, " hits left\n")
         while (limit==0){
             cr <- sample(creds, 1)
-            cat(cr, "\n")
+            message(cr, "\n")
             load(cr)
             Sys.sleep(sleep)
             # sleep for 5 minutes if limit rate is less than 100
@@ -161,13 +162,13 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
                 Sys.sleep(300)
             }
             limit <- getLimitTimeline(my_oauth)
-            cat(limit, " hits left\n")
+            message(limit, " hits left\n")
         }
         ## trying to parse JSON data
         ## json.data <- fromJSON(url.data, unexpected.escape = "skip")
         json.data <- httr::content(url.data)
         if (length(json.data$error)!=0){
-            cat(url.data)
+            message(url.data)
             stop("error! Last cursor: ", cursor)
         }
         ## writing to disk
@@ -177,7 +178,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
         ## max_id
         tweets <- tweets + length(json.data)
         max_id <- json.data[[length(json.data)]]$id_str
-        cat(tweets, "tweets. Max id: ", max_id, "\n")
+        message(tweets, "tweets. Max id: ", max_id, "\n")
     }
 }
 

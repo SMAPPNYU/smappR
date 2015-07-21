@@ -27,14 +27,14 @@ getStatuses <- function(ids=NULL, filename, oauth_folder, verbose=TRUE, sleep=1)
     creds <- list.files(oauth_folder, full.names=T)
     ## open a random credential
     cr <- sample(creds, 1)
-    if (verbose) {cat(cr, "\n")}
+    if (verbose) {message(cr, "\n")}
     load(cr)
     ## while rate limit is 0, open a new one
     limit <- getLimitStatuses(my_oauth)
-    if (verbose) {cat(limit, " API calls left\n")}
+    if (verbose) {message(limit, " API calls left\n")}
     while (limit==0){
         cr <- sample(creds, 1)
-        if (verbose){cat(cr, "\n")}
+        if (verbose){message(cr, "\n")}
         load(cr)
         Sys.sleep(sleep)
         # sleep for 5 minutes if limit rate is less than 100
@@ -43,7 +43,7 @@ getStatuses <- function(ids=NULL, filename, oauth_folder, verbose=TRUE, sleep=1)
             Sys.sleep(300)
         }
         limit <- getLimitStatuses(my_oauth)
-        if (verbose){cat(limit, " API calls left\n")}
+        if (verbose){message(limit, " API calls left\n")}
     }
     ## url to call
     url <- "https://api.twitter.com/1.1/statuses/lookup.json"
@@ -62,7 +62,7 @@ getStatuses <- function(ids=NULL, filename, oauth_folder, verbose=TRUE, sleep=1)
         # parsing JSON
         json.data <- RJSONIO::fromJSON(url.data)
         if (length(json.data$error)!=0){
-            cat(url.data)
+            message(url.data)
             stop("error downloading IDs! First ID not downloaded", ids[1])
         }
 
@@ -75,10 +75,10 @@ getStatuses <- function(ids=NULL, filename, oauth_folder, verbose=TRUE, sleep=1)
         ids.left <- ids.left[-(1:100)]
 
         ## changing oauth token if we hit the limit
-        if (verbose){cat(limit, " API calls left\n")}
+        if (verbose){message(limit, " API calls left\n")}
         while (limit==0){
             cr <- sample(creds, 1)
-            if (verbose){cat(cr, "\n")}
+            if (verbose){message(cr, "\n")}
             load(cr)
             Sys.sleep(sleep)
             # sleep for 5 minutes if limit rate is less than 100
@@ -87,7 +87,7 @@ getStatuses <- function(ids=NULL, filename, oauth_folder, verbose=TRUE, sleep=1)
                 Sys.sleep(300)
             }
             limit <- getLimitStatuses(my_oauth)
-            if (verbose){cat(limit, " API calls left\n")}
+            if (verbose){message(limit, " API calls left\n")}
         }
     }
 }

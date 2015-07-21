@@ -127,7 +127,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     ## max_id
     tweets <- length(json.data)
     max_id <- json.data[[tweets]]$id_str
-    message(tweets, "tweets. Max id: ", max_id, "\n")
+    message(tweets, " tweets. Max id: ", max_id, "\n")
     max_id_old <- "none"
     if (is.null(since_id)) {since_id <- 1}
 
@@ -178,7 +178,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
         ## max_id
         tweets <- tweets + length(json.data)
         max_id <- json.data[[length(json.data)]]$id_str
-        message(tweets, "tweets. Max id: ", max_id, "\n")
+        message(tweets, " tweets. Max id: ", max_id, "\n")
     }
 }
 

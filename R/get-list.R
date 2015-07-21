@@ -35,14 +35,14 @@ getList <- function(list_name, screen_name, oauth_folder, cursor=-1){
     creds <- list.files(oauth_folder, full.names=T)
     ## open a random credential
     cr <- sample(creds, 1)
-    cat(cr, "\n")
+    message(cr, "\n")
     load(cr)
     ## while rate limit is 0, open a new one
     limit <- getLimitList(my_oauth)
-    cat(limit, " API calls left\n")
+    message(limit, " API calls left\n")
     while (limit==0){
         cr <- sample(creds, 1)
-        cat(cr, "\n")
+        message(cr, "\n")
         load(cr)
         Sys.sleep(1)
         # sleep for 5 minutes if limit rate is less than 100
@@ -51,7 +51,7 @@ getList <- function(list_name, screen_name, oauth_folder, cursor=-1){
             Sys.sleep(300)
         }
         limit <- getLimitList(my_oauth)
-        cat(limit, " API calls left\n")
+        message(limit, " API calls left\n")
     }
     ## url to call
     url <- "https://api.twitter.com/1.1/lists/members.json"
@@ -70,7 +70,7 @@ getList <- function(list_name, screen_name, oauth_folder, cursor=-1){
         ## trying to parse JSON data
         json.data <- rjson::fromJSON(url.data, unexpected.escape = "skip")
         if (length(json.data$error)!=0){
-            cat(url.data)
+            message(url.data)
             stop("error! Last cursor: ", cursor)
         }
         ## transforming to DF and storing in list
@@ -81,14 +81,14 @@ getList <- function(list_name, screen_name, oauth_folder, cursor=-1){
         ## next cursor
         cursor <- json.data$next_cursor_str
         ## giving info
-        cat(sum(unlist(lapply(members, nrow))), 
-            "users in list. Next cursor: ", cursor, "\n")
+        message(sum(unlist(lapply(members, nrow))), 
+            " users in list. Next cursor: ", cursor, "\n")
 
         ## changing oauth token if we hit the limit
-        cat(limit, " API calls left\n")
+        message(limit, " API calls left\n")
         while (limit==0){
             cr <- sample(creds, 1)
-            cat(cr, "\n")
+            message(cr, "\n")
             load(cr)
             Sys.sleep(1)
             # sleep for 5 minutes if limit rate is less than 100
@@ -97,7 +97,7 @@ getList <- function(list_name, screen_name, oauth_folder, cursor=-1){
                 Sys.sleep(300)
             }
             limit <- getLimitList(my_oauth)
-            cat(limit, " API calls left\n")
+            message(limit, " API calls left\n")
         }
     }
     members <- do.call(rbind, members)

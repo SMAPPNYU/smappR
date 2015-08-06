@@ -42,23 +42,23 @@ word.frequencies <- function(text, stopwords=NULL, verbose=TRUE, sparsity=0.999)
     # preparing corpus of words
     myCorpus <- Corpus(VectorSource(text2))
     if (Sys.info()['sysname']=="Darwin"){
-        myCorpus <- tm_map(myCorpus, function(x) iconv(x, to='UTF-8-MAC', sub='byte'))   
+        myCorpus <- tm_map(myCorpus, content_transformer(function(x) iconv(x, to='UTF-8-MAC', sub='byte')))   
     }
     if (Sys.info()['sysname']=="Windows"){
-        myCorpus <- tm_map(myCorpus, function(x) iconv(enc2utf8(x), sub = "byte"))  
+        myCorpus <- tm_map(myCorpus, content_transformer(function(x) iconv(enc2utf8(x), sub = "byte")))
     }
    
     # convert to lower case
     cat("Converting to lowercase... ")
-    myCorpus <- tm_map(myCorpus, tolower)
+    myCorpus <- tm_map(myCorpus, content_transformer(tolower))
     cat("done!\n")
     # remove numbers
     cat("Removing digits and URLs... ")
-    myCorpus <- tm_map(myCorpus, removeNumbers)
+    myCorpus <- tm_map(myCorpus, content_transformer(removeNumbers))
     # remove URLS
     removeURL <- function(x) gsub('"(http.*) |(http.*)$|\n', "", x)
     cat("done!\n")
-    myCorpus <- tm_map(myCorpus, removeURL) 
+    myCorpus <- tm_map(myCorpus, content_transformer(removeURL))
 
     # building document term matrix
     cat("Counting words... ")

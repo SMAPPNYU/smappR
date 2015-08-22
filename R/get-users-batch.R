@@ -71,6 +71,11 @@ getUsersBatch <- function(ids=NULL, screen_names=NULL, oauth_folder, include_ent
       friends_count = unlist(lapply(tmp, '[[', 'friends_count')),
       created_at = unlist(lapply(tmp, '[[', 'created_at')),
       location = unlist(lapply(tmp, '[[', 'location')),
+      lang = unlist(lapply(tmp, '[[', 'lang')),
+      time_zone = unlist(lapply(tmp, '[[', 'time_zone')),
+      status.id_str = unlistWithNA(tmp, c('status', 'id_str')),
+      status.created_at = unlistWithNA(tmp, c('status', 'created_at')),
+      status.text = unlistWithNA(tmp, c('status', 'text')),
       stringsAsFactors=F)
 
     i <- i + 1
@@ -81,3 +86,17 @@ getUsersBatch <- function(ids=NULL, screen_names=NULL, oauth_folder, include_ent
   return(users.df)
 }
 
+
+unlistWithNA <- function(lst, field){
+  if (length(field)==1){
+    notnulls <- unlist(lapply(lst, function(x) !is.null(x[[field]])))
+    vect <- rep(NA, length(lst))
+    vect[notnulls] <- unlist(lapply(lst, function(x) x[[field]]))
+  }
+  if (length(field)==2){
+    notnulls <- unlist(lapply(lst, function(x) !is.null(x[[field[1]]][[field[2]]])))
+    vect <- rep(NA, length(lst))
+    vect[notnulls] <- unlist(lapply(lst, function(x) x[[field[1]]][[field[2]]]))
+  }
+  return(vect)
+}

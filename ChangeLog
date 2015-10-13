@@ -22,3 +22,7 @@
     - added getStatuses function for bulk download of tweets
 2014-08-14 - version 0.3.6:
     - new link to twofishes geocoder
+2015-10-13 - version 0.4:
+    - new function: getRetweets, getUsersBatch, searchUsers
+    - some functions now work with httr
+    - general bug fixes

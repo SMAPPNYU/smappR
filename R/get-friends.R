@@ -40,14 +40,14 @@ getFriends <- function(screen_name=NULL, oauth_folder, cursor=-1, user_id=NULL, 
     creds <- list.files(oauth_folder, full.names=T)
     ## open a random credential
     cr <- sample(creds, 1)
-    if (verbose){message(cr, "\n")}
+    if (verbose){message(cr)}
     load(cr)
     ## while rate limit is 0, open a new one
     limit <- getLimitFriends(my_oauth)
     if (verbose){message(limit, " API calls left")}
     while (limit==0){
         cr <- sample(creds, 1)
-        if (verbose){message(cr, "\n")}
+        if (verbose){message(cr)}
         load(cr)
         Sys.sleep(sleep)
         # sleep for 5 minutes if limit rate is less than 100
@@ -96,7 +96,7 @@ getFriends <- function(screen_name=NULL, oauth_folder, cursor=-1, user_id=NULL, 
         if (verbose){message(limit, " API calls left")}
         while (limit==0){
             cr <- sample(creds, 1)
-            if (verbose){message(cr, "\n")}
+            if (verbose){message(cr)}
             load(cr)
             Sys.sleep(sleep)
             # sleep for 5 minutes if limit rate is less than 100

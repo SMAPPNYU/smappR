@@ -52,14 +52,14 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     creds <- list.files(oauth_folder, full.names=T)
     ## open a random credential
     cr <- sample(creds, 1)
-    if (verbose) message(cr, "\n")
+    if (verbose) message(cr)
     load(cr)
     ## while rate limit is 0, open a new one
     limit <- getLimitTimeline(my_oauth)
     if (verbose) message(limit, " hits left")
     while (limit==0){
         cr <- sample(creds, 1)
-        if (verbose) message(cr, "\n")
+        if (verbose) message(cr)
         load(cr)
         Sys.sleep(sleep)
         # sleep for 5 minutes if limit rate is less than 100
@@ -102,7 +102,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
     if (verbose) message(limit, " hits left")
     while (limit==0){
         cr <- sample(creds, 1)
-        if (verbose) message(cr, "\n")
+        if (verbose) message(cr)
         load(cr)
         Sys.sleep(sleep)
         # sleep for 5 minutes if limit rate is less than 100
@@ -153,7 +153,7 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
         message(limit, " hits left")
         while (limit==0){
             cr <- sample(creds, 1)
-            message(cr, "\n")
+            message(cr)
             load(cr)
             Sys.sleep(sleep)
             # sleep for 5 minutes if limit rate is less than 100

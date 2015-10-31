@@ -85,18 +85,3 @@ getUsersBatch <- function(ids=NULL, screen_names=NULL, oauth_folder, include_ent
   if (!is.null(output)){ close(conn) }
   return(users.df)
 }
-
-
-unlistWithNA <- function(lst, field){
-  if (length(field)==1){
-    notnulls <- unlist(lapply(lst, function(x) !is.null(x[[field]])))
-    vect <- rep(NA, length(lst))
-    vect[notnulls] <- unlist(lapply(lst, function(x) x[[field]]))
-  }
-  if (length(field)==2){
-    notnulls <- unlist(lapply(lst, function(x) !is.null(x[[field[1]]][[field[2]]])))
-    vect <- rep(NA, length(lst))
-    vect[notnulls] <- unlist(lapply(lst, function(x) x[[field[1]]][[field[2]]]))
-  }
-  return(vect)
-}

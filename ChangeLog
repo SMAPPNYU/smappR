@@ -26,3 +26,7 @@
     - new function: getRetweets, getUsersBatch, searchUsers
     - some functions now work with httr
     - general bug fixes
+2016-01-01 - version 0.5:
+    - new function: searchTweets
+    - better verbose messages
+    - fixes bug in getUsersBatch function

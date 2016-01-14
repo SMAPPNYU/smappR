@@ -39,8 +39,6 @@
 #' If \code{TRUE}, will return only tweets that use a hashtag. If \code{FALSE}, will
 #' return only tweets that do not contain a hashtag. 
 #'
-#' @param string string, set to NULL by default (will return all tweets). If
-#' it is a string, it will return all tweets that contain that string.
 #'
 #' @details
 #' The following is a non-exhaustive of relevant fields that can be specified on the 
@@ -77,7 +75,6 @@ extract.recent.tweets <- function(set, limit=100,
     string=NULL, retweets=NULL, hashtags=NULL, verbose=TRUE)
 {
 
-    require(rmongodb)
     fields.arg <- fields
     query <- list()
 

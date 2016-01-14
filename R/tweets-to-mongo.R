@@ -59,8 +59,7 @@
 tweetsToMongo <- function(file.name=NULL, ns=NULL, host='localhost', username="", 
 	password="", verbose=TRUE)
 {
-    require(rmongodb)
-	
+
 	## from json to list
     results.list <- readTweets(file.name, verbose=FALSE)
 

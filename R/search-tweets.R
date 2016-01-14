@@ -51,8 +51,6 @@
 searchTweets <- function(q, filename, n=200, oauth_folder="~/credentials", 
     until=NULL, since_id=NULL, result_type="recent", lang=NULL, sleep=.5, verbose=FALSE){
 
-    require(rjson); require(ROAuth); require(httr); require(jsonlite)
-
     ## create list of credentials
     creds <- list.files(oauth_folder, full.names=T)
     ## open a random credential

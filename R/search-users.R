@@ -31,8 +31,6 @@
 #'
 
 searchUsers <- function(q=NULL, count=100, oauth_folder, verbose=TRUE){
-
-    require(ROAuth); require(httr); require(jsonlite)
   
     ## create list of credentials
     creds <- list.files(oauth_folder, full.names=T)

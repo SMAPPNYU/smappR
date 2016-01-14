@@ -30,3 +30,4 @@
     - new function: searchTweets
     - better verbose messages
     - fixes bug in getUsersBatch function
+    - improves dependencies

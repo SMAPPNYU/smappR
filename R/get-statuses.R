@@ -9,7 +9,7 @@
 #'
 #' @param ids list of tweet IDs to be downloaded
 #'
-#' @param file Name of file where json tweets will be stored
+#' @param filename Name of file where json tweets will be stored
 #'
 #' @param oauth_folder folder where OAuth tokens are stored.
 #'
@@ -20,8 +20,6 @@
 #'
 
 getStatuses <- function(ids=NULL, filename, oauth_folder, verbose=TRUE, sleep=1){
-
-    require(rjson); require(ROAuth)
 
     ## create list of credentials
     creds <- list.files(oauth_folder, full.names=T)
@@ -49,18 +47,25 @@ getStatuses <- function(ids=NULL, filename, oauth_folder, verbose=TRUE, sleep=1)
     url <- "https://api.twitter.com/1.1/statuses/lookup.json"
     ids.left <- ids
 
+    # preparing OAuth token for httr
+    options("httr_oauth_cache"=FALSE)
+    app <- httr::oauth_app("twitter", key = my_oauth$consumerKey, 
+        secret = my_oauth$consumerSecret)
+    credentials <- list(oauth_token = my_oauth$oauthKey, oauth_token_secret = my_oauth$oauthSecret)
+    twitter_token <- httr::Token1.0$new(endpoint = NULL, params = list(as_header = TRUE), 
+        app = app, credentials = credentials)
+
     ## while there's more data to download...
     while (length(ids.left)>0){
         ## making API call
-        params <- list(id = paste(ids.left[1:100], collapse=","))
-        url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
-        cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl"))
+        query <- list(id = paste(ids.left[1:100], collapse=","))
+        url.data <- httr::GET(url, query = query, httr::config(token = twitter_token))
         Sys.sleep(sleep)
         ## one API call less
         limit <- limit - 1
         
         # parsing JSON
-        json.data <- RJSONIO::fromJSON(url.data)
+        json.data <- httr::content(url.data)
         if (length(json.data$error)!=0){
             message(url.data)
             stop("error downloading IDs! First ID not downloaded", ids[1])
@@ -68,7 +73,7 @@ getStatuses <- function(ids=NULL, filename, oauth_folder, verbose=TRUE, sleep=1)
 
         ## writing to disk
         conn <- file(filename, "a")
-        invisible(lapply(json.data, function(x) writeLines(rjson::toJSON(x), con=conn)))
+        invisible(lapply(json.data, function(x) writeLines(jsonlite::toJSON(x, null="null"), con=conn)))
         close(conn)
     
         # removing IDs done
@@ -93,7 +98,6 @@ getStatuses <- function(ids=NULL, filename, oauth_folder, verbose=TRUE, sleep=1)
 }
 
 getLimitRate <- function(my_oauth){
-    require(rjson); require(ROAuth)
     url <- "https://api.twitter.com/1.1/application/rate_limit_status.json"
     params <- list(resources = "followers,application")
     response <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
@@ -104,7 +108,6 @@ getLimitRate <- function(my_oauth){
 
 
 getLimitStatuses <- function(my_oauth){
-    require(rjson); require(ROAuth)
     url <- "https://api.twitter.com/1.1/application/rate_limit_status.json"
     params <- list(resources = "statuses,application")
     response <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 

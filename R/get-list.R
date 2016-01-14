@@ -29,8 +29,6 @@
 
 getList <- function(list_name, screen_name, oauth_folder, cursor=-1){
 
-    require(rjson); require(ROAuth)
-
     ## create list of credentials
     creds <- list.files(oauth_folder, full.names=T)
     ## open a random credential
@@ -105,7 +103,6 @@ getList <- function(list_name, screen_name, oauth_folder, cursor=-1){
 }
 
 getLimitList <- function(my_oauth){
-    require(rjson); require(ROAuth)
     url <- "https://api.twitter.com/1.1/application/rate_limit_status.json"
     params <- list(resources = "lists,application")
     response <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 

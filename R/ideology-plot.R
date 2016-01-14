@@ -35,8 +35,7 @@ ideology.plot <- function(results){
     data$phi <- as.numeric(data$phi)
     data$phi.lo <- as.numeric(data$phi.lo)
     data$phi.hi <- as.numeric(data$phi.hi)
-    # preparing plot
-    library(ggplot2)
+
     p <- ggplot(data, aes(y=reorder(screenName, -phi), x=phi))
     pq <- p + geom_point(size=1.25) + 
         geom_segment(width=.5, aes(x=phi.lo, xend=phi.hi, y=reorder(screenName, -phi), 

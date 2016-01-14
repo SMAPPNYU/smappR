@@ -11,6 +11,10 @@
 #' @docType package
 #' @author Pablo Barbera \email{pablo.barbera@@nyu.edu}
 #' @import rmongodb
+#' @import ROAuth
+#' @import ggplot2
+#' @import httr
+#' @import rjson
 NULL
 
 

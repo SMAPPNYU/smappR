@@ -34,8 +34,6 @@
 getUsers <- function(oauth_folder="~/credentials", screen_names=NULL, 
     id=NULL, include_entities="true", verbose=FALSE){
 
-    require(ROAuth); require(httr); require(jsonlite)
-
     ## create list of credentials
     creds <- list.files(oauth_folder, full.names=T)
     ## open a random credential
@@ -85,7 +83,6 @@ getUsers <- function(oauth_folder="~/credentials", screen_names=NULL,
 
 
 getLimitUsers <- function(my_oauth){
-    require(rjson); require(ROAuth)
     url <- "https://api.twitter.com/1.1/application/rate_limit_status.json"
     params <- list(resources = "users,application")
     response <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 

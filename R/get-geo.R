@@ -81,7 +81,7 @@ getGeo <- function(location, verbose=FALSE, rdstk="http://www.datasciencetoolkit
 getCoordinates <- function (address, twofishes) 
 {
     api <- paste(twofishes, "query=", sep = "")
-    result <- content(GET(paste(api, URLencode(address), sep = "")))
+    result <- content(httr::GET(paste(api, URLencode(address), sep = "")))
     return(result)
 }
 

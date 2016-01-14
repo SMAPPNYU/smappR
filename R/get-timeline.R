@@ -46,8 +46,6 @@
 getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_name=NULL, 
     id=NULL, since_id=NULL, trim_user="true", sleep=.5, verbose=FALSE){
 
-    require(rjson); require(ROAuth); require(httr); require(jsonlite)
-
     ## create list of credentials
     creds <- list.files(oauth_folder, full.names=T)
     ## open a random credential
@@ -184,12 +182,11 @@ getTimeline <- function(filename, n=3200, oauth_folder="~/credentials", screen_n
 
 
 getLimitTimeline <- function(my_oauth){
-    require(rjson); require(ROAuth)
     url <- "https://api.twitter.com/1.1/application/rate_limit_status.json"
     params <- list(resources = "statuses,application")
     response <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
         cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl"))
-    return(unlist(fromJSON(response)$resources$statuses$`/statuses/user_timeline`[['remaining']]))
+    return(unlist(rjson::fromJSON(response)$resources$statuses$`/statuses/user_timeline`[['remaining']]))
 
 }
 

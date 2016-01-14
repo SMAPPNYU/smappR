@@ -35,9 +35,6 @@ return only tweets that do not contain a hashtag.}
 
 \item{verbose}{logical, default is \code{TRUE}, which generates some output to the
 R console with information about the count of tweets.}
-
-\item{string}{string, set to NULL by default (will return all tweets). If
-it is a string, it will return all tweets that contain that string.}
 }
 \description{
 \code{extract.recent.tweets} opens a connection to the Mongo database in

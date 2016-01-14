@@ -30,8 +30,6 @@
 
 getRetweets <- function(id=NULL, oauth_folder, cursor=-1, verbose=TRUE, sleep=1){
 
-    require(rjson); require(ROAuth)
-
     ## create list of credentials
     creds <- list.files(oauth_folder, full.names=T)
     ## open a random credential
@@ -103,10 +101,9 @@ getRetweets <- function(id=NULL, oauth_folder, cursor=-1, verbose=TRUE, sleep=1)
 }
 
 getLimitRetweets <- function(my_oauth){
-    require(rjson); require(ROAuth)
     url <- "https://api.twitter.com/1.1/application/rate_limit_status.json"
     params <- list(resources = "statuses,application")
     response <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
         cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl"))
-    return(unlist(fromJSON(response)$resources$statuses$`/statuses/retweeters/ids`[['remaining']]))
+    return(unlist(rjson::fromJSON(response)$resources$statuses$`/statuses/retweeters/ids`[['remaining']]))
 }

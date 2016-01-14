@@ -118,7 +118,6 @@ searchTweets <- function(q, filename, n=200, oauth_folder="~/credentials",
         if (verbose) message(limit, " hits left")
     }
     ## trying to parse JSON data
-    ## json.data <- fromJSON(url.data, unexpected.escape = "skip")
     json.data <- httr::content(url.data)
     if (length(json.data$error)!=0){
         message(url.data)

@@ -154,6 +154,15 @@ searchTweets <- function(q, filename, n=200, oauth_folder="~/credentials",
             limit <- getLimitSearch(my_oauth)
             message(limit, " hits left")
         }
+
+        # preparing OAuth token for httr
+        options("httr_oauth_cache"=FALSE)
+            app <- httr::oauth_app("twitter", key = my_oauth$consumerKey, 
+            secret = my_oauth$consumerSecret)
+        credentials <- list(oauth_token = my_oauth$oauthKey, oauth_token_secret = my_oauth$oauthSecret)
+            twitter_token <- httr::Token1.0$new(endpoint = NULL, params = list(as_header = TRUE), 
+            app = app, credentials = credentials)
+
         ## trying to parse JSON data
         ## json.data <- fromJSON(url.data, unexpected.escape = "skip")
         json.data <- httr::content(url.data)

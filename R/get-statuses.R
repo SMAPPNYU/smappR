@@ -81,6 +81,7 @@ getStatuses <- function(ids=NULL, filename, oauth_folder, verbose=TRUE, sleep=1)
 
         ## changing oauth token if we hit the limit
         if (verbose){message(limit, " API calls left\n")}
+        cr_old <- cr
         while (limit==0){
             cr <- sample(creds, 1)
             if (verbose){message(cr, "\n")}
@@ -93,6 +94,13 @@ getStatuses <- function(ids=NULL, filename, oauth_folder, verbose=TRUE, sleep=1)
             }
             limit <- getLimitStatuses(my_oauth)
             if (verbose){message(limit, " API calls left\n")}
+        }
+        if (cr != cr_old) {
+            app <- httr::oauth_app("twitter", key = my_oauth$consumerKey, 
+                secret = my_oauth$consumerSecret)
+            credentials <- list(oauth_token = my_oauth$oauthKey, oauth_token_secret = my_oauth$oauthSecret)
+            twitter_token <- httr::Token1.0$new(endpoint = NULL, params = list(as_header = TRUE), 
+                app = app, credentials = credentials)
         }
     }
 }

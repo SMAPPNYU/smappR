@@ -59,7 +59,7 @@ getRetweets <- function(id=NULL, oauth_folder, cursor=-1, verbose=TRUE, sleep=1)
     ## while there's more data to download...
     while (cursor!=0){
         ## making API call
-        params <- list(id = id)
+        params <- list(id = id, stringify_ids="true")
         url.data <- my_oauth$OAuthRequest(URL=url, params=params, method="GET", 
             cainfo=system.file("CurlSSL", "cacert.pem", package = "RCurl"))
         Sys.sleep(sleep)

@@ -73,7 +73,7 @@ getStatuses <- function(ids=NULL, filename, oauth_folder, verbose=TRUE, sleep=1)
 
         ## writing to disk
         conn <- file(filename, "a")
-        invisible(lapply(json.data, function(x) writeLines(jsonlite::toJSON(x, null="null"), con=conn)))
+        invisible(lapply(json.data, function(x) writeLines(jsonlite::toJSON(x, null="null"), con=conn, useBytes=TRUE)))
         close(conn)
     
         # removing IDs done
